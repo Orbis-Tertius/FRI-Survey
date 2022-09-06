@@ -169,10 +169,10 @@
 \title{%
 A summary on the FRI low degree test
 \\
-{\small Version 1.0}
+{\small Version 1.1}
 }
 \date{%
-September 4, 2022
+September 6, 2022
 }
 \maketitle
 
@@ -181,7 +181,8 @@ September 4, 2022
 
 \begin{abstract}
 This document is an informal summary on the FRI low degree test \cite{FRI}, \cite{ProximityGaps}, and the DEEP method  from \cite{DEEPFRI}. 
-Based on its most recent soundness analysis \cite{ProximityGaps}, we discuss parameter settings for practical security levels, how FRI is turned into a polynomial commitment scheme, and the soundness of DEEP sampling in the list decoding regime. 
+Based on its most recent soundness analysis \cite{ProximityGaps}, we discuss parameter settings for practical security levels, how FRI is turned into a polynomial commitment scheme, and the soundness of DEEP sampling in the list decoding regime.
+We discuss the DEEP method applied to proving satisifiability of algebraic intermediate representations, and prove a soundness error bound  which slightly improves over the one in \cite{ethSTARK}.
 \end{abstract}
 
 %Keywords: SNARKs, recursive proofs, aggregation scheme
@@ -222,7 +223,7 @@ Instead it is an outcome of my learnings when reading the papers\cite{ProximityG
 The document provides an overview of FRI and its soundness analysis, including some background on decoding Reed-Solomon codes.
 It discusses the DEEP method and how it is related to polynomial commitment schemes and we sketch the more general notion of list polynomial commitment schemes \cite{Redshift}. 
 Finally we illustrate how soundness error bounds are proven for the DEEP method in the list decoding regime. 
-In the course the latter we clarify some minor gaps of \cite{ethSTARK}, which are the usage of degree correction factors (these are not needed when applying the DEEP method to a batch of polynomials of the same maximum degree), and the quadratic occurence of the decoder list size bound in their soundness error formula, which can be replaced by a linear term.   
+In the course the latter we clarify some minor gaps of \cite{ethSTARK}, which are the usage of degree correction factors (these are not needed for the DEEP method), and the quadratic occurence of the decoder list size bound in their soundness error formula, which can be replaced by a linear term.   
 
 We assume that the reader knows (public-coin) interactive oracle proofs and their security notions  \cite{IOPs}, such as soundness, proof of knowledge, and statistical (i.e. perfect) honest verifier zero-knowledge. 
 Any IOP with these security properties can be compiled into a succinct non-interact-ive argument of knowledge in the random oracle model \cite{IOPs}:
@@ -1327,10 +1328,10 @@ This completes the proof.
 
 \subsection{Extractability}
 
-We only provide a brief sketch how to build the extractor in the oracle model, given a prover $P^*$ which succeeds with a probability of at least the above soundness error bound:
+We only provide a brief sketch how to build the extractor in the oracle model, given a prover $P^*$ which succeeds with a probability of that exceeds the soundness error bound from Theorem \ref{thm:DEEPsoundness}:
 \begin{enumerate}
 \item
-Apply the forking lemma to sample a “good” first message $[f_1],\ldots , [f_w]$ on which the prover succeeds with a probability greater than the soundness error from Theorem \ref{thm:DEEPsoundness}.
+Sample a “good” first message $[f_1],\ldots , [f_w]$ on which the prover succeeds with a probability greater than the soundness error from Theorem \ref{thm:DEEPsoundness}.
 
 \item
 Read $f_1, \ldots ,f_w$ from the oracles. 
@@ -1342,6 +1343,9 @@ Alternatively one could run the  Guruswami-Sudan list decoder over $K=F(Z)$.
 However, its run-time analysis in the number of operations over $F$ is probably more difficult. 
 }%
 \end{enumerate}
+
+The first step takes expected time $O\left(\nicefrac{1}{\varepsilon}\right)$, and the Gurswami-Sudan decoder runs in at most $O\left(|D|^{15}\right)$ field operations, see Remark \ref{rem:GuruswamiSudanTime}.
+To obtain strict polynomial running time, at the cost of having a success probability $<1$, one may stop the sampling after a multiple of $\nicefrac{1}{\varepsilon}$.
  
 \subsection{Boosting soundness}
 In this section we outline standard techniques to lower the DEEP-ALI soundness error for AIRs over small fields $F$. 
@@ -1602,6 +1606,16 @@ As before, this step might be efficient or not, depending on the field $K$.
 }
 \end{enumerate}
 \end{protocol}
+
+\begin{rem}
+\label{rem:GuruswamiSudanTime}
+Choosing the discriminant method to find factors of the form $Y- p(X)$, the Guruswami-Sudan list decoder taking at most
+\[
+O\left(\max\left\{\frac{d^3 \cdot n^6 \cdot a^6}{(a^2 - d\cdot n)^6}, \frac{a^6}{k^3}\right\}\right)
+\]
+field operations over $K$, see \cite{GuruswamiSudan}.
+This is at most of order $O\left(|D|^{15}\right)$.
+\end{rem}
 
 %Note that in particular for the choice of $\theta =1 -\left(1+\frac{1}{2m}\right)\cdot\sqrt\rho$
 Note that choosing 
