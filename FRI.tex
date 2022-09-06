@@ -180,9 +180,9 @@ September 6, 2022
 
 
 \begin{abstract}
-This document is an informal summary on the FRI low degree test \cite{FRI}, \cite{ProximityGaps}, and the DEEP method  from \cite{DEEPFRI}. 
+This document is an informal summary on the FRI low degree test \cite{FRI}, \cite{ProximityGaps}, and DEEP algebraic linking from \cite{DEEPFRI}. 
 Based on its most recent soundness analysis \cite{ProximityGaps}, we discuss parameter settings for practical security levels, how FRI is turned into a polynomial commitment scheme, and the soundness of DEEP sampling in the list decoding regime.
-We discuss the DEEP method applied to proving satisifiability of algebraic intermediate representations, and prove a soundness error bound  which slightly improves over the one in \cite{ethSTARK}.
+In particular, we demonstrate the DEEP method applied to proving satisifiability of algebraic intermediate representations \cite{Starks, DEEPFRI}, and prove a soundness error bound which slightly improves over the one in \cite{ethSTARK}.
 \end{abstract}
 
 %Keywords: SNARKs, recursive proofs, aggregation scheme
@@ -251,8 +251,12 @@ We denote by
 \RS_k[F,D] = \big\{ \left.p(x)\right|_{x\in D} : p(X)\in F[X], \deg p(X) < k\big\}
 \end{equation*}
 the Reed-Solomon code of rate $\rho = \frac{k}{n}$ over the domain of definition $D\subseteq F^*$. 
-Whenever we say that a polynomial $p(X)$ belongs to $\RS_k[F,D]$, we mean that its domain evaluation $p(x)|_{x\in D}$ is a code word. 
- 
+Whenever we say that a polynomial $p(X)$ belongs to $\RS_k[F,D]$, we mean that its domain evaluation $p(x)|_{x\in D}$, i.e. the functional restriction to $D$, is a code word. 
+
+In the context of oracle proofs, we denote oracles for  functions $f\in F^D$ by
+$\big[ f \big]$, and occationally call them \textit{domain evaluation oracles} to distinguish from oracles of polynomial IOPs \cite{DARK}, which model polynomial commitment schemes.
+In order to a closer alignment with the compiled protocol in the random oracle model, we prefer to say that a party $P$ (the prover) ``sends'' $[f]$ to another party $V$ (the verifier), meaning that $P$ setsup the oracle for $f$ and $V$ obtains oracle access for it.
+
 
 \chapter{Correlated agreement}
 
@@ -718,7 +722,7 @@ There exist constants $c_1$, $c_2$ such that for all $\theta =1-\rho -\eta$, $\e
 For purely linear batching, a similar conjecture is stated.
 \end{conj}
 
-We point out that the above conjecture (as well as its corresponding one in \cite{FRI}) is stated isolated from any general conjectured properties on Reed-Solomon codes, such as list decodability up to capacity bound (as done for DEEP method, see below). 
+We point out that the above conjecture (as well as its corresponding one in \cite{FRI}) is stated isolated from any general conjectured properties on Reed-Solomon codes, such as list decodability up to capacity bound (as done for DEEP method, see Section \ref{s:RSConjecture}). 
 Instead it is rather justified by “\textit{[to the best of our knowledge...] nothing seems to contradict}” .
 The authors consider the choice of $c_1=c_2=2$ reasonable, and for fields of characteristic $q>n$ they estimate that $c_1=c_2=1$. 
 %For characteristics $q<n$, a counter example from Appendix B of  \cite{DEEPFRI} contradicts the latter choice of constants.  
@@ -1060,14 +1064,15 @@ In order not to introduce yet another oracle model which reflects this specific 
 An \textit{algebraic intermediate representation (AIR)}, see \cite{Starks, DEEPFRI, ethSTARK}, is defined over an FFT domain $H\subset F$ with generator $g$. 
 Each $x$ in $H$ carries a “row” of $w$ witnesses (or, “columns”)
 \[
-(g_1(x),.., g_w(x)).
+(g_1(x),.., g_w(x)),
 \]
+on which a certain number of algebraic constraints are imposed.
 For simplicity we restrict ourselves to constraints between neigboring rows only, i.e. polynomials 
 \[
 P_1, \ldots ,P_{C}\in F[X_1,...,X_w,Y_1,...,Y_w],  
 \] 
 each $P_i$ being imposed on a specified coset $a_i\cdot H_i\subseteq H$, where $H_i$ is a subgroup of $H$.
- Satisfiability of the AIR is given by 
+Hence satisfiability of the AIR is defined by 
 \begin{equation}
 \label{e:AIRConstraint}
 P_i(x, g_1(x),\ldots ,g_w(x),g_1(g\cdot x), \ldots,g_w(g\cdot x)) = 0 \quad \forall x \in a_i\cdot H_i,
@@ -1078,8 +1083,9 @@ In terms of polynomials $p_1(X),\ldots, p_w(X)\in F[X]$ extending the witness fu
 \frac{P_i\big(p_1(X), \ldots, p_w(X), p_1(g\cdot X), \ldots, p_1(g\cdot X)\big) }{ v_{a_i\cdot H_i}(X)}
 \]
 where $v_{a_i\cdot H_i}(X) = z^{|H_i|} - a_i^{|H_i|}$ is the vanishing polynomial of the coset $a_i\cdot H_i$, being again a polynomial.
+This is the approach \cite{Starks, DEEPFRI, ethSTARK}.
 However, instead of working with these quotients we prefer using polynomial identities similar to Plonk \cite{Plonk}:
-Satisfiability of an AIR constraint is equvialent to 
+Satisfiability of an AIR constraint $P_i$ imposed on $a_i\cdot H_i$ is equvialent to 
 \begin{equation}
 \label{e:AIRConstraintIdentity}
 \begin{aligned}
@@ -1093,26 +1099,22 @@ where
 \label{e:SelectorPoly}
 s_i(X) =\frac{v_H(X)}{v_{a_i\cdot H_i}(X)}  \in F[X]
 \end{equation}
-is the \textit{selector polynomial} for the constraint $P_i$.
-%, since 
-%\[
-%\frac{v_H(z)}{v_{a_i\cdot H_i}(z)} = \frac{z^{|H|} -1}{z^{|H_i|} - a_i^{|H_i|}} ,
-%\] 
-%for $z\notin H$.
+is the \textit{selector polynomial}\footnotemark for the constraint $P_i$.
+\footnotetext{%
+Notice that, although $\deg s_i(X) \leq |H| -  1$, the polynomial $s_i(X)$ can be succinctly evaluated outside $H$ using the rational representation from \eqref{e:SelectorPoly}. 
+Therefore no evaluation has to be provided by the prover.
+}%
 The \textit{overall degree} of the AIR is defined as
-\[
+\begin{equation}
 d = \max_i \deg(P_i),
-\]
+\end{equation}
 where $\deg(P_i)$ is the total degree of $P_i$.
-
-
-%Without loss in generality, we may assume that for each constraint the degree of $s_i(X)$ is bounded by $|H|-1$. 
 
 The sampling domain $D$ for FRI is chosen so that $|D|=\beta\cdot |H|$, with a blow-up factor $\beta =1/\rho$ being a power of two, and $\RS_k[D,F]$ is the Reed-Solomon code of length $n= |D|$ and rate $\rho=\frac{k}{n}$, with
 \begin{equation}
 k = |H|.
 \end{equation}
-The agreement parameter used for FRI is taken slightly larger than $\alpha = \left(1+\frac{1}{2m}\right)\cdot\sqrt\rho$, $m\geq 3$, namely 
+However, the agreement parameter used for FRI is taken slightly larger than $\alpha = \left(1+\frac{1}{2m}\right)\cdot\sqrt\rho$, $m\geq 3$, namely 
 \begin{equation}
 \alpha^+= \left(1+\frac{1}{2m}\right)\cdot \sqrt{\rho^+}, \quad m\geq 3, 
 \end{equation}
@@ -1131,7 +1133,8 @@ The low-degree extensions $p_i(X)\in F[X]$ of the witness functions $g_i$ on $H$
 
 The DEEP-ALI protocol (for simplicity without zero-knowledge) for our AIR is as follows: 
 
-\begin{protocol}
+\begin{protocol}[IOP for AIR using DEEP-ALI]
+\label{p:AIRDEEP}
 Let $p_1(X), \ldots, p_w(X)\in F[X]$ be polynomials of degree $\deg p_i(X)\leq |H|-1$ satisfying the AIR constraints \eqref{e:AIRConstraint}, $i=1,\ldots, C$.
 \begin{enumerate}
 \item
@@ -1177,20 +1180,22 @@ If FRI passes, and if the evaluation claims satisfy the overall identity \eqref{
 \end{protocol}
 
 \begin{rem}
-Notice that, although $\deg s_i(X) \leq |H| -  1 = O(|H|)$, the polynomial $s_i(X)$ can be succinctly evaluated outside $H$ using the rational representation from \eqref{e:SelectorPoly}. 
-It is for this reason that also $H$ is excluded from the samping space of $z$.
+Notice that the polynomial $s_i(X)$ can only be succinctly evaluated outside $H$.
+It is for this reason that $H$ is excluded from the samping space of $z$.
 \end{rem}
 
 \begin{rem}
-The quotient polynomial $h_\lambda(X)$ in our presentation is the same as
+As discussed above, our definition of AIR is equivalent to the one from \cite{Starks, DEEPFRI, ethSTARK} (besides that we restricted to constraints between neighboring rows in order to keep the presentation simple). 
+In particular the quotient polynomial $h_\lambda(X)$ in our protocol is the same as
 \begin{multline*}
 \sum_{i=1}^{C} \lambda^{i-1} \cdot\frac{ s_i(X)}{v_H(X)}\cdot P_i(p_1(X),\ldots ,p_w(X),p_1(gX), \ldots, p_w(gX)) =
 \\
 \sum_{i=1}^{C} \lambda^{i-1} \cdot \frac{P_i(p_1(X),\ldots ,p_w(X),p_1(gX), \ldots, p_w(gX))}{v_{a_i\cdot H_i}(X)},
 \end{multline*}
-which is the one used by \cite{DEEPFRI}.
+which is the batched rational function used in their line of work.
 \end{rem}
 
+We finally state the soundness error of Protocol \ref{p:AIRDEEP} in the oracle model.
 \begin{thm}[DEEP-ALI soundness]
 \label{thm:DEEPsoundness} 
 The above oracle proof for AIR satisfiability has soundness error 
@@ -1205,13 +1210,13 @@ with  $k^+ = k+2$,  $L^+ = \frac{m+\frac{1}{2}}{\sqrt{\rho^+}}$ , $\rho^+=\frac{
 \begin{rem}
  In the soundness error formula in  \cite{DEEPFRI}, Theorem 15 , the list bound $L^+$ occurs quadratically. 
 This is due to the application of two separate FRI arguments, one for the batched quotients of the witness polynomials, and another one for the overall quotient polynomial.  
-(The splitting technique for $h$ is outlined in Section 5.5. therein.)
-For the same reason, the notion of list polynomial commitment schemes from \cite{Redshift} would lead to the  $w$-th power of $L^+$. 
+(However, the splitting technique for $h$ is outlined in Section 5.5.~therein.)
+For the same reason, the notion of list polynomial commitment schemes from \cite{Redshift} would lead to the  $w$-th power of $L^+$, $w$ being the number of witness columns.
 This might be acceptable for proving soundness of standard Plonk in the list polynomial oracle model, but not for a larger number of witness columns. 
 \end{rem}
 
 \begin{proof}
-We denote $\varepsilon_1=L^+ \cdot \frac{C}{|F|}$, $\varepsilon_2 = L^+ \cdot  \frac{d\cdot (k^+ - 1) + (k - 1)}{|F| - |D\cup H|}$ , and $\varepsilon_3=\varepsilon_{FRI}$. 
+Let us denote $\varepsilon_1=L^+ \cdot \frac{C}{|F|}$, $\varepsilon_2 = L^+ \cdot  \frac{d\cdot (k^+ - 1) + (k - 1)}{|F| - |D\cup H|}$ , and $\varepsilon_3=\varepsilon_{FRI}$. 
 Suppose that $P^*$ is an adversary which succeeds the verifier with a probability exceeding $\varepsilon =\varepsilon_1+\varepsilon_2+\varepsilon_3$ .
 Then there exists a first message of $P^*$, i.e. words  $f_1, \ldots, f_w$  on $D$, on which $P^*$ succeeds with probability $> \varepsilon$ , and hence
 \[
@@ -1240,7 +1245,7 @@ $
 %\]
 %have correlated agreement with polynomials of degree $\leq k - 1 + 2 = k^+ -1$, which evaluate to the claimed values at $z$ and $g\cdot z$. 
 
-First, let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$.
+Let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$.
 By the existence of a single ``good'' $z$, we know that both
 \[
 A(x)= \sum_{j=1}^w f_j(x)\cdot Z^{j-1},
@@ -1251,12 +1256,12 @@ B(x)= \sum_{j=1}^w f_j(x)\cdot Z^{j-1} + \sum_{j=0}^{d-1} h_{\lambda, j}(x) \cdo
 \] 
 have $\alpha^+$-agreement with a codeword from $RS_{k^+}[K,D]$ over the rational function field $K=F(Z)$, where $\alpha^+ > \sqrt{\rho^+}$.
 (For now, we ignore the evaluation property infered from the FRI proof on the quotients.)
-By the Guruswami-Sudan list decoding bound for Reed-Solomon codes (over general fields, see Appendix \ref{s:ListDecoding}), there can exist at most $m_1\leq L^+$  “configurations”
+By the Guruswami-Sudan list decoding bound for Reed-Solomon codes (over general fields, see Appendix \ref{s:ListDecoding}), there can exist at most $m_1\leq L^+$  “$i$-configurations”
 \[
  \left(p_{1,1}^{(i)}, \ldots, p_{1,w}^{(i)} \right) \in F[X]^w, 
 \]
 $i=1,\ldots, m_1$, which have correlated agreement with $(f_1,\ldots, f_w)$ on some set of density $\geq \alpha^+$, 
-and at most $m_2 \leq L^+$ ``configurations''
+and at most $m_2 \leq L^+$ ``$j$-configurations''
 \[
 \left(p_{2,1}^{(j)}, \ldots, p_{2,w}^{(j)}, h_{\lambda,0}^{(j)}, \ldots , h_{\lambda, d-1}^{(j)} \right)\in F[X]^{w+d}, 
 \]
@@ -1268,7 +1273,8 @@ We say that ``$j$-configuration'' extends an ``$i$-configuration'' if the first 
 However, the correlated agreement sets may shrink.
 }%
 %
-Since there are  more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many good $z$, and each such good $z$ establishes a ``$j$-configuration'' which evaluates to the claimed values, we conclude from the pigeon-hole principle that there is at least one ``$j$-configuration'' 
+Now, we take into account that for our good $(f_1,\ldots, f_w)$, $(h_{\lambda,0},\ldots, h_{\lambda, d-1})$ there exist more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many good $z$. 
+By the closeness of the evaluation quotients, each such good $z$ establishes a ``$j$-configuration'' which evaluates to the claimed values, and we conclude from the pigeon-hole principle that there is at least one ``$j$-configuration'' 
 \[
 (p_1,\ldots, p_w, h_{\lambda, 0}, \ldots, h_{\lambda,d-1}) = \left(p_1^{(j)},\ldots, p_w^{(j)},h_{\lambda,0}^{(j)}, \ldots , h_{\lambda, d-1}^{(j)} \right)
 \] 
@@ -1285,8 +1291,8 @@ By the degree of the identity, this configuration is a solution of it, and there
 for the given $\lambda$.
 
 Now we keep a ``good'' first message $(f_1,\ldots, f_w)$ fixed, and apply the above reasoning to every good second message $(h_{\lambda,0},\ldots, h_{\lambda, d-1})$ of it. 
-Since there are at least $L^+\cdot C$ many, and by the extension property, we conclude again from the pigeon-hole principle that there is at least one ``$i$-configuration'' $(p_1,\ldots, p_w) = (p_1^{(i)}, \ldots,p_w^{(i)})$ for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
-By linear algebra we conclude that  
+Since there are at least $L^+\cdot C$ many, and by the above mentioned extension property of ```$j$-configurations'', we conclude again from the pigeon-hole principle that there is at least one ``$i$-configuration'' $(p_1,\ldots, p_w) = (p_1^{(i)}, \ldots,p_w^{(i)})$ for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
+By linear algebra (the Vandermonde matrix is invertible) we conclude that  
 \[
 s_i(X)\cdot P_i(X, p_1(X), \ldots, p_w(X), p_1(gX), \ldots, p_w(g X)) = 0 \bmod v_H(X)
 \]
@@ -1360,7 +1366,7 @@ The soundness error bound lowers accordingly, replacing $|F|$ with $|F_e|$.
 Instead of drawing the DEEP query from an extension field, one may also take several DEEP queries $z_1,\ldots , z_N$ from $F\setminus D$, and apply FRI to the batch of all resulting quotients. 
 The corresponding $L^+\cdot\frac{d\cdot (k^+-1)}{|F|}$ term in the soundness error bound is then lowered to  
 \[
-\left(L^+\cdot\frac{d\cdot (k^+ - 1)}{|F|}\right)^N
+\left(L^+\cdot\frac{d\cdot (k^+ - 1) + (k - 1)}{|F\setminus (D\cup H)|}\right)^N
 \]
 instead. 
 Note that resampling of FRI queries would increase the proof size exponentially in $N$. 
@@ -1379,14 +1385,14 @@ Then there exists a constant $C_\rho$  such that for every $\theta =1-\rho -\eta
 \[
 L \leq\left(\frac{|D|}{\eta}\right)^{C_\rho}.
 \]
-(Note: No concrete assumptions on $C_\rho$ are made.)
+(Note: No concrete assumptions on the constant $C_\rho$ is made.)
 \end{conj}
 
 For quite large fields $F$ (compared to the block length $|D|=n$) there are linear codes which are list decodable up to capacity bound $1-\rho$, such as the folded Reed-Solomon codes (see the Guruswami 2007 survey). 
 In the case of bounded alphabet, Guruswami \cite{ListDecodingBook} demonstrates binary linear codes which are list decodable to the Zyablow bound $\frac{1-\rho}{H}$ (here, $H$ is the entropy of the code) and uses such codes to construct examples that approach capacity bound, having list size $L=O\left(\frac{1}{\eta}\right)$. 
 
 However, practitioners seem to avoid this conjecture. 
-The ethSTARK \cite{ethSTARK} takes a toy protocol as a representative for the entire DEEP-ALI AIR, whereas the plonky2 writeup \cite{PolygonZero} only sketches soundness in the polynomial oracle model, with no reference to list bounds.
+The ethSTARK \cite{ethSTARK} takes a toy protocol as a representative for the entire DEEP-ALI of AIR, whereas the plonky2 writeup \cite{PolygonZero} only sketches soundness in the polynomial oracle model, with no reference to list bounds.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
