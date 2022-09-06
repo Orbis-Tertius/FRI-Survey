@@ -1038,10 +1038,12 @@ to corresponding low-degree polynomials.
 %If the low-degree test passes, and if the evaluation claims satisfy the identity \eqref{e:PolyIdentity} at $X=z$, then the verifier accepts.
 %This can be done over a smaller domain than in algebraic linking, as the degree
 Furthermore, by decomposing $h(X)$ into into polynomials of degree $|\Omega|-1$, e.g.
-\[
-h(X)=h_0(X^d)+X\cdot h_1(X^d)+ \ldots +X^{d-1}\cdot  h_{d-1}(X^{d}),
-\]
+\begin{equation}
+\label{e:Splitting}
+h(X)=h_0(X)+X^{|\Omega|}\cdot h_1(X)+ \ldots +X^{(d-1)\cdot |\Omega|}\cdot  h_{d-1}(X),
+\end{equation}
 one can even use a sampling domain the size of which is not determined by the degree of $h(X)$. 
+(We use a different decomposition as in \cite{DEEPFRI, ethSTARK}, which does not imply any further constraints on the sampling space for $z$.)
 
 In the unique decoding regime, the DEEP-ALI approach is equivalent to a polynomial IOP using FRI as a polynomial commitment scheme as described in Chapter \ref{ch:Polycommit}. 
 %Its soundness analysis is as for any polynomial IOP.  
@@ -1054,60 +1056,62 @@ In order not to introduce yet another oracle model which reflects this specific 
 % \cite{DEEPFRI} already uses only the conjuction of all polynomial constraints.
 
 %We demonstrate the application of DEEP-ALI to an \textit{algebraic intermediate representation (AIR)} as in 
-An \textit{algebraic intermediate representation} (\textit{AIR}, see \cite{Starks, DEEPFRI} or \cite{ethSTARK}) is defined over an FFT domain $H\subset F$ with generator $g$. 
+An \textit{algebraic intermediate representation (AIR)}, see \cite{Starks, DEEPFRI, ethSTARK}, is defined over an FFT domain $H\subset F$ with generator $g$. 
 Each $x$ in $H$ carries a “row” of $w$ witnesses (or, “columns”)
 \[
 (g_1(x),.., g_w(x)).
 \]
-For simplicity we assume the constraints are algebraic conditions 
+For simplicity we restrict ourselves to constraints between neigboring rows only, i.e. polynomials 
 \[
-P_0, \ldots ,P_{C-1}\in F[X, X_1,...,X_w,Y_1,...,Y_w]  
-\]
-between neighboring rows only, where for each $P_i$ there is a succinct evaluation formula $P_i' \in  F(X)[X_1,\ldots,X_w, Y_1,\ldots, Y_w]$ which holds for $X=z$ outside the domain $H$.
-In this case satisfiability of the AIR is given by 
+P_1, \ldots ,P_{C}\in F[X_1,...,X_w,Y_1,...,Y_w],  
+\] 
+each $P_i$ being imposed on a specified coset $a_i\cdot H_i\subseteq H$, where $H_i$ is a subgroup of $H$.
+ Satisfiability of the AIR is given by 
 \begin{equation}
 \label{e:AIRConstraint}
-P_i(x, g_1(x),\ldots ,g_w(x),g_1(g\cdot x), \ldots,g_w(g\cdot x)) = 0,
+P_i(x, g_1(x),\ldots ,g_w(x),g_1(g\cdot x), \ldots,g_w(g\cdot x)) = 0 \quad \forall x \in a_i\cdot H_i,
 \end{equation}
-for all $x$ in $H$ and $i=0,\ldots,C-1$, or in terms of low-degree extensions $p_1(X),\ldots, p_w(X)$,  
+for every $i=1,\ldots,C$.
+In terms of polynomials $p_1(X),\ldots, p_w(X)\in F[X]$ extending the witness functions $g_1, \ldots, g_w$, satisfiability of an AIR constraint $P_i$ on $a_i\cdot H_i$ can be expressed by demanding the quotient
+\[
+\frac{P_i\big(p_1(X), \ldots, p_w(X), p_1(g\cdot X), \ldots, p_1(g\cdot X)\big) }{ v_{a_i\cdot H_i}(X)}
+\]
+where $v_{a_i\cdot H_i}(X) = z^{|H_i|} - a_i^{|H_i|}$ is the vanishing polynomial of the coset $a_i\cdot H_i$, being again a polynomial.
+However, instead of working with these quotients we prefer using polynomial identities similar to Plonk \cite{Plonk}:
+Satisfiability of an AIR constraint is equvialent to 
 \begin{equation}
 \label{e:AIRConstraintIdentity}
 \begin{aligned}
-P_i\big(X, p_1(X), \ldots, p_w(X), p_1(g\cdot X), \ldots, p_1&(g\cdot X)\big) 
+s_i(X) \cdot P_i\big(p_1(X), \ldots, p_w(X), p_1(g\cdot X), \ldots, p_1&(g\cdot X)\big) 
 \\
 &= 0 \bmod v_H(X),
 \end{aligned}
 \end{equation}
-where $v_H(X)$ is the vanishing polynomial of $H$.
-Without loss in generality, we may assume that for each constraint the degree in $X$ is bounded by $|H|-1$. 
-The \textit{overall degree} of the AIR is 
+where  
+\begin{equation}
+\label{e:SelectorPoly}
+s_i(X) =\frac{v_H(X)}{v_{a_i\cdot H_i}(X)}  \in F[X]
+\end{equation}
+is the \textit{selector polynomial} for the constraint $P_i$.
+%, since 
+%\[
+%\frac{v_H(z)}{v_{a_i\cdot H_i}(z)} = \frac{z^{|H|} -1}{z^{|H_i|} - a_i^{|H_i|}} ,
+%\] 
+%for $z\notin H$.
+The \textit{overall degree} of the AIR is defined as
 \[
-d = \max_i \deg_{F(X)}(P_i),
+d = \max_i \deg(P_i),
 \]
-where $\deg_{F(X)}(P_i)$ is the total degree of $P_i$ regarded as polynomial over $F(X)$ in the variables $X_1, \ldots, X_w$, $Y_1, \ldots, Y_w$ . 
+where $\deg(P_i)$ is the total degree of $P_i$.
 
-\begin{rem}
-We point out a slight difference between our definition of an AIR and those from \cite{DEEPFRI} and \cite{ethSTARK}.
-We directly consider periodic and boundary constraints as polynomial identities over the entire domain $H$:
-%, as used in the definition of an AIR from \cite{DEEPFRI} and \cite{ethSTARK} are captured by our our definition. 
-If $a_i\cdot H_i$ is the coset of a subgroup $H_i$ of $H$, on which we want to enforce a polynomial relation between two neighboring rows, then the polynomial
-\[
-s(X) =\frac{v_H(X)}{v_{a_i\cdot H_i}(X)}  \in F[X]
-\]
-can be used to ``select'' enforcement of the relation on $a_i\cdot H_i$ only. 
-For this reason we assume each $P_i$  as elements of  $F[X, X_1,\ldots, X_w, Y_1,\ldots, Y_w]$ thinking selector polynomials being integrated into $P_i$. 
-Notice that, although $\deg s_i(X) = O(|H|)$, the polynomial $s(X)$ can be succinctly evaluated outside $H$ using the above rational representation, since 
-\[
-\frac{v_H(z)}{v_{a_i\cdot H_i}(z)} = \frac{z^{|H|} -1}{z^{|H_i|} - a_i^{|H_i|}} ,
-\] 
-for $z\notin H$.
-\end{rem}
 
-The sampling domain $D$ for FRI is chosen so that $|D|=\beta\cdot |H|$, with a blow-up factor $\beta =1/\rho$ being a power of two, and $RS_k[D,F]$ is the Reed-Solomon code of length $n= |D|$ and rate $\rho=\frac{k}{n}$, with
+%Without loss in generality, we may assume that for each constraint the degree of $s_i(X)$ is bounded by $|H|-1$. 
+
+The sampling domain $D$ for FRI is chosen so that $|D|=\beta\cdot |H|$, with a blow-up factor $\beta =1/\rho$ being a power of two, and $\RS_k[D,F]$ is the Reed-Solomon code of length $n= |D|$ and rate $\rho=\frac{k}{n}$, with
 \begin{equation}
 k = |H|.
 \end{equation}
-The agreement parameter used for FRI is chosen slightly larger than $\alpha = \left(1+\frac{1}{2m}\right)\cdot\sqrt\rho$, $m\geq 3$, namely 
+The agreement parameter used for FRI is taken slightly larger than $\alpha = \left(1+\frac{1}{2m}\right)\cdot\sqrt\rho$, $m\geq 3$, namely 
 \begin{equation}
 \alpha^+= \left(1+\frac{1}{2m}\right)\cdot \sqrt{\rho^+}, \quad m\geq 3, 
 \end{equation}
@@ -1116,41 +1120,44 @@ where
 \rho^+=\frac{|H|+2}{|D|}.
 \end{equation}
 The reason for this slightly larger choice is due to the evaluation quotients of the protocol, which are subject to the FRI proof. 
-Their denominators can be quadratic and hence the degree of the non-quotients by $\leq |H|-1 + 2$.
-The low-degree extensions $p_i(X)\in F[X]$ of the witness functions $g_i$ on $H$ are provided as code words over $D$, and to use again the same code for a polynomial $h(X)$ of larger degree, we split it into segment polynomials of degree $|H|-1$:
-\begin{equation}
-\label{e:Splitting}
-h(X)=h_0(X^d)+X\cdot h_1(X^d)+ \ldots + X^{d-1} \cdot h_{d-1}(X^d),
-\end{equation}
-where $\deg h_j(X)\leq |H|-1$, $j=0,..,d-1$.
+Their denominators are at most quadratic and hence the degree of the non-quotients is bounded by $|H|-1 + 2$.
+The low-degree extensions $p_i(X)\in F[X]$ of the witness functions $g_i$ on $H$ are provided as code words over $D$, and to use again the same code for a polynomial $h(X)$ of larger degree, we split it into segment polynomials as in \eqref{e:Splitting}. 
+%\begin{equation}
+%\label{e:Splitting}
+%h(X)=h_0(X)+X^{|H|}\cdot h_1(X)+ \ldots +X^{(d-1)\cdot |H|}\cdot  h_{d-1}(X),
+%\end{equation}
+
 
 The DEEP-ALI protocol (for simplicity without zero-knowledge) for our AIR is as follows: 
 
 \begin{protocol}
-Let $p_1(X), \ldots, p_w(X)\in F[X]$ be polynomials of degree $\deg p_i(X)\leq |H|-1$ satisfying the AIR constraints \eqref{e:AIRConstraint} for all $x\in H$ and $i=1,\ldots, C$.
+Let $p_1(X), \ldots, p_w(X)\in F[X]$ be polynomials of degree $\deg p_i(X)\leq |H|-1$ satisfying the AIR constraints \eqref{e:AIRConstraint}, $i=1,\ldots, C$.
 \begin{enumerate}
 \item
 The prover sends the domain evaluation oracles  $[p_1], \ldots, [p_w]$ for $p_1(X)$, \ldots, $p_w(X)$ to the verifier, who responds with a randomness $\lambda\sample F$.
 %
 \item 
 The prover computes $h_\lambda(X)\in F[X]$ of degree $\leq d \cdot (|H|-1)$ satisfying the identity
-\begin{equation*}
-\sum_{i=0}^{C-1} \lambda^i\cdot P_i(X, p_1(X),\ldots ,p_w(X),p_1(gX), \ldots, p_w(gX)) = h_\lambda(X)\cdot v_H(X),
-\end{equation*}
-splits it into its segments $h_{\lambda, 0}(X), \ldots , h_{\lambda, d - 1}(X)$ as in \eqref{e:Splitting}, and sends their domain evaluation oracles $[h_{\lambda,0}]$, \ldots, $[h_{\lambda,d - 1}]$ to the verifier.  
-The overall identity to be proven is 
+\begin{multline*}
+\sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X),\ldots ,p_w(X),p_1(gX), \ldots, p_w(gX)) 
+\\ 
+= h_\lambda(X)\cdot v_H(X),
+\end{multline*}
+splits it into its segment polynomials $h_{\lambda, j}(X)$, $j=0,\ldots, d-1$, each of degree $\leq |H|-1$, as in \eqref{e:Splitting}, and sends their domain evaluation oracles $[h_{\lambda,0}]$, \ldots, $[h_{\lambda,d - 1}]$ to the verifier.  
+The overall identity to be proven is therefore
 \begin{equation}
 \label{e:OverallIdentityAIR}
 \begin{aligned}
-\sum_{i=0}^{C-1} \lambda^i\cdot P_i(X, p_1(X), \ldots, p_w(X), p_1&(gX), \ldots, p_w(gX))
+\sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X), \ldots, p_w(&X), p_1(gX), \ldots, p_w(gX))
 \\ 
-&= v_H(X)\cdot \sum_{j=0}^{d-1} X^j\cdot  h_{\lambda,j}(X^d).
+&= v_H(X)\cdot \sum_{j=0}^{d-1} X^{j\cdot |H|}\cdot  h_{\lambda,j}(X).
 \end{aligned}
 \end{equation}
 The verifier answers with a DEEP query, i.e. a random $z\sample F\setminus (D\cup H)$.
 %
 \item 
 Upon receiving the DEEP query $z$, the prover sends the evaluation claims $(z,v_{i,1})$, $(g\cdot z, v_{i,2})$, $i=1,...,w$, for the witness polynomials $p_i(X)$, and $(z,v_j)$, $j=0,...,d-1$, for the segment polynomials $h_{\lambda, j}(X)$, to the verifier.
+\item
 Eventually, prover and verifier run batched FRI for proximity of the evaluation quotients
 \begin{equation*}
 %\Quotient(p_i,(z,v_{i,1}),(gz,v_{i,2})) &= 
@@ -1168,34 +1175,44 @@ If FRI passes, and if the evaluation claims satisfy the overall identity \eqref{
 \end{enumerate}
 \end{protocol}
 
+\begin{rem}
+Notice that, although $\deg s_i(X) \leq |H| -  1 = O(|H|)$, the polynomial $s_i(X)$ can be succinctly evaluated outside $H$ using the rational representation from \eqref{e:SelectorPoly}. 
+It is for this reason that also $H$ is excluded from the samping space of $z$.
+\end{rem}
+
+\begin{rem}
+The quotient polynomial $h_\lambda(X)$ in our presentation is the same as
+\begin{multline*}
+\sum_{i=1}^{C} \lambda^{i-1} \cdot\frac{ s_i(X)}{v_H(X)}\cdot P_i(p_1(X),\ldots ,p_w(X),p_1(gX), \ldots, p_w(gX)) =
+\\
+\sum_{i=1}^{C} \lambda^{i-1} \cdot \frac{P_i(p_1(X),\ldots ,p_w(X),p_1(gX), \ldots, p_w(gX))}{v_{a_i\cdot H_i}(X)},
+\end{multline*}
+which is the one used by \cite{DEEPFRI}.
+\end{rem}
+
 \begin{thm}[DEEP-ALI soundness]
 \label{thm:DEEPsoundness} 
 The above oracle proof for AIR satisfiability has soundness error 
 \begin{equation}
 \label{e:SoundnessDEEPALI}
 %\varepsilon < L^+ \cdot \frac{d\cdot (k^+ - 1) + C}{|F|} + \varepsilon_{FRI},
-\varepsilon < L^+ \cdot \left(\frac{C}{|F|} + \frac{d\cdot (k^+ - 1) + (k - 1)}{|F| - |D\cup H|}\right) + \varepsilon_{FRI},
+\varepsilon \leq L^+ \cdot \left(\frac{C}{|F|} + \frac{d\cdot (k^+ - 1) + (k - 1)}{|F| - |D\cup H|}\right) + \varepsilon_{FRI},
 \end{equation}
 with  $k^+ = k+2$,  $L^+ = \frac{m+\frac{1}{2}}{\sqrt{\rho^+}}$ , $\rho^+=\frac{k^+}{n}$, and $\varepsilon_{FRI}$ being the soundness error for batched FRI for $\alpha^+$-agreement with $RS_k[F,D]$. 
 \end{thm}
 
 \begin{rem}
  In the soundness error formula in  \cite{DEEPFRI}, Theorem 15 , the list bound $L^+$ occurs quadratically. 
-This is due to the application of two separate FRI arguments, one batched for the witness polynomials, and another one for the overall quotient polynomial.  
+This is due to the application of two separate FRI arguments, one for the batched quotients of the witness polynomials, and another one for the overall quotient polynomial.  
 (The splitting technique for $h$ is outlined in Section 5.5. therein.)
 For the same reason, the notion of list polynomial commitment schemes from \cite{Redshift} would lead to the  $w$-th power of $L^+$. 
 This might be acceptable for proving soundness of standard Plonk in the list polynomial oracle model, but not for a larger number of witness columns. 
 \end{rem}
 
-\begin{rem}
-As pointed out in the introduction, the present soundness analysis improves over \cite{ethSTARK}, Theorem 4. 
-There, the list bound $L^+$ occurs also quadratic, which 
-\end{rem}
-
 \begin{proof}
-We denote $\varepsilon_1=L^+ \cdot \frac{C}{|F|}$, $\varepsilon_2 = L^+ \cdot \frac{d\cdot k^+}{|F|}$ , and $\varepsilon_3=\varepsilon_{FRI}$. 
-Suppose that $P^*$ is an adversary which succeeds the verifier with probability $\varepsilon_1+\varepsilon_2+\varepsilon_3$ .
-Then there exists a first message of $P^*$, i.e. words  $f_1, \ldots, f_w$  on $D$, on which $P^*$ succeeds with probability $\geq\varepsilon$ , and hence
+We denote $\varepsilon_1=L^+ \cdot \frac{C}{|F|}$, $\varepsilon_2 = L^+ \cdot  \frac{d\cdot (k^+ - 1) + (k - 1)}{|F| - |D\cup H|}$ , and $\varepsilon_3=\varepsilon_{FRI}$. 
+Suppose that $P^*$ is an adversary which succeeds the verifier with a probability exceeding $\varepsilon =\varepsilon_1+\varepsilon_2+\varepsilon_3$ .
+Then there exists a first message of $P^*$, i.e. words  $f_1, \ldots, f_w$  on $D$, on which $P^*$ succeeds with probability $> \varepsilon$ , and hence
 \[
 \Pr\big[\lambda : \Pr\left(P^*\text{ succeeds } |\lambda\right) > \varepsilon_2+\varepsilon_3 \big] > \varepsilon_1.
 \]
@@ -1204,7 +1221,7 @@ Likewise, for every such “good” $\lambda$ (by the definition of $\varepsilon
 \[
 \Pr\big[ z\in F\setminus D :  \Pr(P^*\text{ succeeds }| z) >\varepsilon_3 \big] > \varepsilon_2.
 \]
-For each such “good” $z\in F\setminus D$ (by the definition of $\varepsilon_2$, there are more than $L^+\cdot d\cdot( k^+ - 1)$ many) the soundness of FRI enforces the quotients
+For each such “good” $z\in F\setminus (D\cup H)$ (by the definition of $\varepsilon_2$, there are more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many) the soundness of FRI enforces the quotients
 \[ 
 \left( 
 \frac{f_1(x)-V_1(x)}{(x-z)\cdot (x-g\cdot z)}, \ldots, \frac{f_w(x)-V_w(x)}{(x-z)\cdot (x-g\cdot z)}, \frac{h_{\lambda,0}(x)- v_0}{x-z}, \ldots , \frac{h_{d - 1}(x) -v_{d-1}}{x-z}
@@ -1222,7 +1239,7 @@ $
 %\]
 %have correlated agreement with polynomials of degree $\leq k - 1 + 2 = k^+ -1$, which evaluate to the claimed values at $z$ and $g\cdot z$. 
 
-Let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$.
+First, let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$.
 By the existence of a single ``good'' $z$, we know that both
 \[
 A(x)= \sum_{j=1}^w f_j(x)\cdot Z^{j-1},
@@ -1250,16 +1267,19 @@ We say that ``$j$-configuration'' extends an ``$i$-configuration'' if the first 
 However, the correlated agreement sets may shrink.
 }%
 %
-Since there are  more than $L^+\cdot d\cdot (k^+ - 1)$ many good $z$, and each such good $z$ establishes a ``$j$-configuration'' which evaluates to the claimed values, we conclude from the pigeon-hole principle that there is at least one ``$j$-configuration'' 
+Since there are  more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many good $z$, and each such good $z$ establishes a ``$j$-configuration'' which evaluates to the claimed values, we conclude from the pigeon-hole principle that there is at least one ``$j$-configuration'' 
 \[
 (p_1,\ldots, p_w, h_{\lambda, 0}, \ldots, h_{\lambda,d-1}) = \left(p_1^{(j)},\ldots, p_w^{(j)},h_{\lambda,0}^{(j)}, \ldots , h_{\lambda, d-1}^{(j)} \right)
 \] 
-for which the overall identity \eqref{e:OverallIdentityAIR} holds for $\lambda$ at more than $d\cdot (k^+-1)$ many $z$. 
+for which the overall identity \eqref{e:OverallIdentityAIR} holds for $\lambda$ at more than $d\cdot (k^+-1) + (k - 1)$ many $z$. 
 By the degree of the identity, this configuration is a solution of it, and therefore
 \begin{equation}
 \label{e:OverallIdentityAIRmodH}
-\sum_{i=0}^{C-1} \lambda^i\cdot P_i(X, p_1(X), \ldots, p_w(X), p_1(gX), \ldots, p_w(g X)) 
-= 0 \bmod v_H(X)
+\begin{aligned}
+\sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X), \ldots, p_w(X), p_1(gX),& \ldots, p_w(g X)) 
+\\
+&= 0 \bmod v_H(X)
+\end{aligned}
 \end{equation}
 for the given $\lambda$.
 
@@ -1267,9 +1287,9 @@ Now we keep a ``good'' first message $(f_1,\ldots, f_w)$ fixed, and apply the ab
 Since there are at least $L^+\cdot C$ many, and by the extension property, we conclude again from the pigeon-hole principle that there is at least one ``$i$-configuration'' $(p_1,\ldots, p_w) = (p_1^{(i)}, \ldots,p_w^{(i)})$ for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
 By linear algebra we conclude that  
 \[
- P_i(X, p_1(X), \ldots, p_w(X), p_1(gX), \ldots, p_w(g X)) = 0 \bmod v_H(X)
+s_i(X)\cdot P_i(X, p_1(X), \ldots, p_w(X), p_1(gX), \ldots, p_w(g X)) = 0 \bmod v_H(X)
 \]
-for every $i =0, \ldots, C-1$, which shows that the values of $(p_1,\ldots, p_w)$ over $H$ satisfy the constraints the AIR.
+for every $i =1, \ldots, C$, which shows that the values of $(p_1,\ldots, p_w)$ over $H$ satisfy the constraints the AIR.
 This completes the proof.
 %
 % old version of the proof
