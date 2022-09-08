@@ -1267,33 +1267,26 @@ $
 %\]
 %have correlated agreement with polynomials of degree $\leq k - 1 + 2 = k^+ -1$, which evaluate to the claimed values at $z$ and $g\cdot z$. 
 
-Let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$, given a  ``good'' $z$.
+Let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$ from a  ``good'' $z$.
 Each function in these messages has $\alpha^+$-agreement with a polynomial of degree at most $|H|-1+2 = k^+ - 1$, and therefore it is $(1-\alpha^+)$-close to $\RS_{k^+}[F,D]$. 
 (For now, we ignore the evaluation property of these polynomials.)
-Hence, by the Guruswami-Sudan list decoding bound (see Appendix \ref{s:ListDecoding}), there can exist at most $ L^+$  “$i$-configurations”
-\[
- \left(p_{1,1}^{(i)}, \ldots, p_{1,w}^{(i)} \right) \in F[X]^w, 
-\]
-which have even correlated agreement with $(f_1,\ldots, f_w)$ on some set of density $\geq \alpha^+$, 
-and at most $L^+$ ``$j$-configurations''
-\[
-\left(p_{2,1}^{(j)}, \ldots, p_{2,w}^{(j)}, h_{\lambda,0}^{(j)}, \ldots , h_{\lambda, d-1}^{(j)} \right)\in F[X]^{w+d}, 
-\]
-which have correlated agreement with $(f_1$, \ldots, $f_w$, $h_{\lambda,0}, \ldots, h_{\lambda, d-1})$ on some set of density $\geq \alpha^+$.
 %
-Note that each ``$j$-configuration'' must extend\footnotemark one of the ``$i$-configurations'' (but not necessarily each ``$i$-configuration'' has an extending ``$j$-configuration'').
-\footnotetext{%
-We say that ``$j$-configuration'' extends an ``$i$-configuration'' if the first $w$ polynomials coincide.
-However, the correlated agreement sets may shrink.
-}%
+By the Guruswami-Sudan list decoding bound (see Appendix \ref{s:ListDecoding}), there can exist at most $ L^+$  many elements in
+$F[X]^{w+d}$, with each component polynomial of degree  $\leq k^+-1$, and which have correlated agreement with $(f_1$, \ldots, $f_w$, $h_{\lambda,0}, \ldots, h_{\lambda, d-1})$ on some set of density $\geq \alpha^+$.
+We shall call such vector of polynomials a \textit{$(w+d)$-configuration}.
 %
-Now, we take into account that for our ``good'' $(f_1,\ldots, f_w)$, $(h_{\lambda,0},\ldots, h_{\lambda, d-1})$ there exist more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many ``good'' $z$. 
-By the closeness of the evaluation quotients, each such good $z$ establishes a ``$j$-configuration'' which evaluates to the claimed values, and we conclude from the pigeon-hole principle that there is at least one ``$j$-configuration'' 
+%Note that each ``$j$-configuration'' must extend\footnotemark one of the ``$i$-configurations'' (but not necessarily each ``$i$-configuration'' has an extending ``$j$-configuration'').
+%\footnotetext{%
+%We say that ``$j$-configuration'' extends an ``$i$-configuration'' if the first $w$ polynomials coincide.
+%However, the correlated agreement sets may shrink.
+%}%
+
+Since there exist more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many ``good'' $z$, and each establishes a $(w+d)$-configuration which moreover evaluates to the claimed values, we conclude from the pigeon-hole principle that there is at least one $(w+d)$-configuration, 
 \[
-(p_1,\ldots, p_w, h_{\lambda, 0}, \ldots, h_{\lambda,d-1}) = \left(p_1^{(j)},\ldots, p_w^{(j)},h_{\lambda,0}^{(j)}, \ldots , h_{\lambda, d-1}^{(j)} \right)
+(p_1,\ldots, p_w, q_{\lambda, 0}, \ldots, q_{\lambda,d-1})\in F[X]^{w+d},
 \] 
-for which the overall identity \eqref{e:OverallIdentityAIR} holds at more than $d\cdot (k^+-1) + (k - 1)$ many $z$. 
-By the degree of the identity, this configuration is a solution of it, 
+for which the overall identity \eqref{e:OverallIdentityAIR} (taking the $q_{\lambda,j}$ as $h_{\lambda,j}$ therein) holds at more than $d\cdot (k^+-1) + (k - 1)$ many $z$. 
+By the degree of the identity, this configuration is a solution of it, and $(p_1,\ldots, p_w)\in F[X]^w$ satisfies
 \begin{equation}
 \label{e:OverallIdentityAIRmodH}
 \begin{aligned}
@@ -1302,16 +1295,20 @@ By the degree of the identity, this configuration is a solution of it,
 &= 0 \bmod v_H(X).
 \end{aligned}
 \end{equation}
+%Hence for each good $(f_1,\ldots, f_w)$ and good $\lambda$, there exists a $(p_1,\ldots, p_w)\in F[X]^w$ which solves the  has correlated agreement with $(f_1,\ldots,f_w)$ on a set of density $\geq\alpha^+$, we call it a ``$w$-configuration''.
 %for the given $\lambda$.
 %
 
-Now we keep a ``good'' first message $(f_1,\ldots, f_w)$ fixed, and apply the above reasoning to every good second message $(h_{\lambda,0},\ldots, h_{\lambda, d-1})$ of it. 
-Since there are at least $L^+\cdot C$ many, and by the above mentioned extension property of ```$j$-configurations'', we conclude again from the pigeon-hole principle that there is at least one ``$i$-configuration'' $(p_1,\ldots, p_w) = (p_1^{(i)}, \ldots,p_w^{(i)})$ for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
-By linear algebra (the Vandermonde matrix is invertible) we conclude that  
+Now let us keep a ``good'' first message $(f_1,\ldots, f_w)$ fixed.
+We have seen that for each ``good'' $\lambda$ there exists a \textit{$w$-configuration}, i.e. an element of $F[X]^w$ with each component polynomial of degree $\leq k^+-1$, sharing correlated agreement with $(f_1,\ldots, f_w)$ on a set of density $\geq \alpha^+$, and moreover which  is a solution of \eqref{e:OverallIdentityAIRmodH}.
+Again, by the Guruswami-Sudan list size bound, there can be at most $L^+$ such $w$-configurations.
+Since there are at least $L^+\cdot C$ many ``good'' $\lambda$, we conclude again from the pigeon-hole principle that there is at least one $w$-configuration, which we again denote by $(p_1,\ldots, p_w)$, for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
+By linear algebra (the Vandermonde matrix is invertible) we conclude that this configuration  satisfies
 \[
 s_i(X)\cdot P_i(X, p_1(X), \ldots, p_w(X), p_1(gX), \ldots, p_w(g X)) = 0 \bmod v_H(X)
 \]
-for every $i =1, \ldots, C$, which shows that the values of $(p_1,\ldots, p_w)$ over $H$ satisfy the constraints the AIR.
+for every $i =1, \ldots, C$.
+The values of $(p_1,\ldots, p_w)$ over $H$ satisfy the constraints the AIR.
 This completes the proof.
 %
 % old version of the proof
