@@ -1267,27 +1267,19 @@ $
 %\]
 %have correlated agreement with polynomials of degree $\leq k - 1 + 2 = k^+ -1$, which evaluate to the claimed values at $z$ and $g\cdot z$. 
 
-Let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$.
-By the existence of a single ``good'' $z$, we know that both
-\[
-A(x)= \sum_{j=1}^w f_j(x)\cdot Z^{j-1},
-\]
-and
-\[
-B(x)= \sum_{j=1}^w f_j(x)\cdot Z^{j-1} + \sum_{j=0}^{d-1} h_{\lambda, j}(x) \cdot Z^{w+j}
-\] 
-have $\alpha^+$-agreement with a codeword from $RS_{k^+}[K,D]$ over the rational function field $K=F(Z)$, where $\alpha^+ > \sqrt{\rho^+}$.
-(For now, we ignore the evaluation property infered from the FRI proof on the quotients.)
-By the Guruswami-Sudan list decoding bound for Reed-Solomon codes (over general fields, see Appendix \ref{s:ListDecoding}), there can exist at most $m_1\leq L^+$  “$i$-configurations”
+Let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$, given a  ``good'' $z$.
+Each function in these messages has $\alpha^+$-agreement with a polynomial of degree at most $|H|-1+2 = k^+ - 1$, and therefore it is $(1-\alpha^+)$-close to $\RS_{k^+}[F,D]$. 
+(For now, we ignore the evaluation property of these polynomials.)
+Hence, by the Guruswami-Sudan list decoding bound (see Appendix \ref{s:ListDecoding}), there can exist at most $ L^+$  “$i$-configurations”
 \[
  \left(p_{1,1}^{(i)}, \ldots, p_{1,w}^{(i)} \right) \in F[X]^w, 
 \]
-$i=1,\ldots, m_1$, which have correlated agreement with $(f_1,\ldots, f_w)$ on some set of density $\geq \alpha^+$, 
-and at most $m_2 \leq L^+$ ``$j$-configurations''
+which have even correlated agreement with $(f_1,\ldots, f_w)$ on some set of density $\geq \alpha^+$, 
+and at most $L^+$ ``$j$-configurations''
 \[
 \left(p_{2,1}^{(j)}, \ldots, p_{2,w}^{(j)}, h_{\lambda,0}^{(j)}, \ldots , h_{\lambda, d-1}^{(j)} \right)\in F[X]^{w+d}, 
 \]
-$j=1,\ldots,m_2$, which have correlated agreement with $(f_1$, \ldots, $f_w$, $h_{\lambda,0}, \ldots, h_{\lambda, d-1})$ on some set of density $\geq \alpha^+$.
+which have correlated agreement with $(f_1$, \ldots, $f_w$, $h_{\lambda,0}, \ldots, h_{\lambda, d-1})$ on some set of density $\geq \alpha^+$.
 %
 Note that each ``$j$-configuration'' must extend\footnotemark one of the ``$i$-configurations'' (but not necessarily each ``$i$-configuration'' has an extending ``$j$-configuration'').
 \footnotetext{%
@@ -1295,22 +1287,23 @@ We say that ``$j$-configuration'' extends an ``$i$-configuration'' if the first 
 However, the correlated agreement sets may shrink.
 }%
 %
-Now, we take into account that for our good $(f_1,\ldots, f_w)$, $(h_{\lambda,0},\ldots, h_{\lambda, d-1})$ there exist more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many good $z$. 
+Now, we take into account that for our ``good'' $(f_1,\ldots, f_w)$, $(h_{\lambda,0},\ldots, h_{\lambda, d-1})$ there exist more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many ``good'' $z$. 
 By the closeness of the evaluation quotients, each such good $z$ establishes a ``$j$-configuration'' which evaluates to the claimed values, and we conclude from the pigeon-hole principle that there is at least one ``$j$-configuration'' 
 \[
 (p_1,\ldots, p_w, h_{\lambda, 0}, \ldots, h_{\lambda,d-1}) = \left(p_1^{(j)},\ldots, p_w^{(j)},h_{\lambda,0}^{(j)}, \ldots , h_{\lambda, d-1}^{(j)} \right)
 \] 
-for which the overall identity \eqref{e:OverallIdentityAIR} holds for $\lambda$ at more than $d\cdot (k^+-1) + (k - 1)$ many $z$. 
-By the degree of the identity, this configuration is a solution of it, and therefore
+for which the overall identity \eqref{e:OverallIdentityAIR} holds at more than $d\cdot (k^+-1) + (k - 1)$ many $z$. 
+By the degree of the identity, this configuration is a solution of it, 
 \begin{equation}
 \label{e:OverallIdentityAIRmodH}
 \begin{aligned}
 \sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X), \ldots, p_w(X), p_1(gX),& \ldots, p_w(g X)) 
 \\
-&= 0 \bmod v_H(X)
+&= 0 \bmod v_H(X).
 \end{aligned}
 \end{equation}
-for the given $\lambda$.
+%for the given $\lambda$.
+%
 
 Now we keep a ``good'' first message $(f_1,\ldots, f_w)$ fixed, and apply the above reasoning to every good second message $(h_{\lambda,0},\ldots, h_{\lambda, d-1})$ of it. 
 Since there are at least $L^+\cdot C$ many, and by the above mentioned extension property of ```$j$-configurations'', we conclude again from the pigeon-hole principle that there is at least one ``$i$-configuration'' $(p_1,\ldots, p_w) = (p_1^{(i)}, \ldots,p_w^{(i)})$ for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
