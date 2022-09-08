@@ -1249,7 +1249,7 @@ Likewise, for every such “good” $\lambda$ (by the definition of $\varepsilon
 \[
 \Pr\big[ z\in F\setminus D :  \Pr(P^*\text{ succeeds }| z) >\varepsilon_3 \big] > \varepsilon_2.
 \]
-For each such “good” $z\in F\setminus (D\cup H)$ (by the definition of $\varepsilon_2$, there are more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many) the soundness of FRI enforces the quotients
+For each such “good” $z\in F\setminus (D\cup H)$ (by the definition of $\varepsilon_2$, there are more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many) the evaluation claims pass the verifier checks, and moreover the soundness of FRI enforces the evaluation quotients
 \[ 
 \left( 
 \frac{f_1(x)-V_1(x)}{(x-z)\cdot (x-g\cdot z)}, \ldots, \frac{f_w(x)-V_w(x)}{(x-z)\cdot (x-g\cdot z)}, \frac{h_{\lambda,0}(x)- v_0}{x-z}, \ldots , \frac{h_{d - 1}(x) -v_{d-1}}{x-z}
@@ -1260,33 +1260,38 @@ $
 \alpha^+ %= \left(1+\frac{1}{2m}\right)\cdot \sqrt{\rho^+} 
 > \sqrt{\rho^+}.
 $ 
-
-%In other words, 
+Cancelling out the denominators, we see that 
+\[
+(f_1,\ldots, f_w, h_{\lambda,0}, \ldots, h_{\lambda,d-1})
+\]
+have correlated agreement on a set of density $\geq \alpha^+$ with some  element from $F[X]^{w+d}$
 %\[
-%(f_1,\ldots, f_w, h_{\lambda,0}, \ldots, h_{\lambda,d-1})
-%\]
-%have correlated agreement with polynomials of degree $\leq k - 1 + 2 = k^+ -1$, which evaluate to the claimed values at $z$ and $g\cdot z$. 
+%(p_1, \ldots, p_w, q_{\lambda,0}, \ldots, q_{\lambda,d-1}) \in ,
+%\] 
+where each component polynomial is of degree $\leq |H| - 1 + 2 = k^+ -1$, and satisfies the evaluation claim.
 
-Let us inspect the consequences of the enforced correlated agreement for such a “good” first and second message $(f_1,\ldots,f_w)$ and $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$ from a  ``good'' $z$.
-Each function in these messages has $\alpha^+$-agreement with a polynomial of degree at most $|H|-1+2 = k^+ - 1$, and therefore it is $(1-\alpha^+)$-close to $\RS_{k^+}[F,D]$. 
-(For now, we ignore the evaluation property of these polynomials.)
+In what follows we shall call each element from  $F[X]^{l}$, with component polynomials of degree $\leq k^+ - 1$, having correlated agreement with a vector of functions on a set of density $\geq \alpha^+$, an \textit{$\alpha^+$-configuration} for that vector of functions. 
+
+Let us keep a combination of “good” first and second messages  $(f_1,\ldots,f_w)$, $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$ fixed.
+We have seen above that the existence of a single ``good'' $z$ implies the existence of an $\alpha^+$-configuration for $(f_1, \ldots, f_w, h_{\lambda,0}, \ldots$, $h_{\lambda,d-1})$.
+%In particular each function in the two messages is $(1-\alpha^+)$-close to a word from $\RS_{k^+}[F,D]$ . 
+%(For now, we ignore the evaluation property of these polynomials.)
 %
-By the Guruswami-Sudan list decoding bound (see Appendix \ref{s:ListDecoding}), there can exist at most $ L^+$  many elements in
-$F[X]^{w+d}$, with each component polynomial of degree  $\leq k^+-1$, and which have correlated agreement with $(f_1$, \ldots, $f_w$, $h_{\lambda,0}, \ldots, h_{\lambda, d-1})$ on some set of density $\geq \alpha^+$.
-We shall call such vector of polynomials a \textit{$(w+d)$-configuration}.
-%
+By the Guruswami-Sudan list size bound\footnotemark (see Appendix \ref{s:ListDecoding}) there are at most $ L^+$  such $\alpha^+$-configurations.
+\footnotetext{%
+By correlated agreement each of the component functions is $(1-\alpha^+)$-close to $\RS_{k^+}[F,D]$.
+}
 %Note that each ``$j$-configuration'' must extend\footnotemark one of the ``$i$-configurations'' (but not necessarily each ``$i$-configuration'' has an extending ``$j$-configuration'').
 %\footnotetext{%
 %We say that ``$j$-configuration'' extends an ``$i$-configuration'' if the first $w$ polynomials coincide.
 %However, the correlated agreement sets may shrink.
 %}%
-
-Since there exist more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many ``good'' $z$, and each establishes a $(w+d)$-configuration which moreover evaluates to the claimed values, we conclude from the pigeon-hole principle that there is at least one $(w+d)$-configuration, 
+However, since there are more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many ``good'' $z$, and each establishes an $\alpha^+$-configuration which smoreover evaluates to the claimed values, we conclude from the pigeon-hole principle that there is at least one $\alpha^+$-configuration, 
 \[
 (p_1,\ldots, p_w, q_{\lambda, 0}, \ldots, q_{\lambda,d-1})\in F[X]^{w+d},
 \] 
 for which the overall identity \eqref{e:OverallIdentityAIR} (taking the $q_{\lambda,j}$ as $h_{\lambda,j}$ therein) holds at more than $d\cdot (k^+-1) + (k - 1)$ many $z$. 
-By the degree of the identity, this configuration is a solution of it, and $(p_1,\ldots, p_w)\in F[X]^w$ satisfies
+By the degree of the identity, this configuration is a solution of it, hence $(p_1,\ldots, p_w)\in F[X]^w$ is an $\alpha^+$-configuration for $(f_1,\ldots, f_w)$ which satisfies
 \begin{equation}
 \label{e:OverallIdentityAIRmodH}
 \begin{aligned}
@@ -1300,9 +1305,9 @@ By the degree of the identity, this configuration is a solution of it, and $(p_1
 %
 
 Now let us keep a ``good'' first message $(f_1,\ldots, f_w)$ fixed.
-We have seen that for each ``good'' $\lambda$ there exists a \textit{$w$-configuration}, i.e. an element of $F[X]^w$ with each component polynomial being of degree $\leq k^+-1$ and having $\alpha^+$-correlated agreement with $(f_1,\ldots, f_w)$, which  is a solution of \eqref{e:OverallIdentityAIRmodH}.
+We have seen that for each ``good'' $\lambda$ there exists an \textit{$\alpha^+$-configuration} for $(f_1,\ldots, f_w)$ which  is a solution of \eqref{e:OverallIdentityAIRmodH}.
 Again, by the Guruswami-Sudan list size bound, there can be at most $L^+$ many $w$-configurations.
-Since there are at least $L^+\cdot C$ many ``good'' $\lambda$, we conclude again from the pigeon-hole principle that there is at least one $w$-configuration, which we again denote by $(p_1,\ldots, p_w)$, for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
+Since there are at least $L^+\cdot C$ many ``good'' $\lambda$, we conclude again from the pigeon-hole principle that there is at least one $\alpha^+$-configuration, which we again denote by $(p_1,\ldots, p_w)$, for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
 By linear algebra (the Vandermonde matrix is invertible) we conclude that this configuration  satisfies
 \[
 s_i(X)\cdot P_i(X, p_1(X), \ldots, p_w(X), p_1(gX), \ldots, p_w(g X)) = 0 \bmod v_H(X)
