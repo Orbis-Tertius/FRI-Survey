@@ -182,7 +182,7 @@ September 6, 2022
 \begin{abstract}
 This document is an informal summary on the FRI low degree test \cite{FRI}, \cite{ProximityGaps}, and DEEP algebraic linking from \cite{DEEPFRI}. 
 Based on its most recent soundness analysis \cite{ProximityGaps}, we discuss parameter settings for practical security levels, how FRI is turned into a polynomial commitment scheme, and the soundness of DEEP sampling in the list decoding regime.
-In particular, we demonstrate the DEEP method applied to proving satisifiability of algebraic intermediate representations \cite{Starks, DEEPFRI}, and prove a soundness error bound which slightly improves over the one in \cite{ethSTARK}.
+In particular, we demonstrate the DEEP method applied to proving satisifiability of algebraic intermediate representations and prove a soundness error bound which slightly improves  the one in \cite{ethSTARK}.
 \end{abstract}
 
 %Keywords: SNARKs, recursive proofs, aggregation scheme
@@ -223,7 +223,7 @@ Instead it is an outcome of my learnings when reading the papers \cite{Proximity
 The document provides an overview of FRI and its soundness analysis, including some background on decoding Reed-Solomon codes.
 It discusses the DEEP method and how it is related to polynomial commitment schemes and we sketch the more general notion of list polynomial commitment schemes \cite{Redshift}. 
 Finally we illustrate how soundness error bounds are proven for the DEEP method in the list decoding regime. 
-In the course the latter we clarify some minor gaps of \cite{ethSTARK}, which are the usage of degree correction factors (these are not needed for the DEEP method), and the quadratic occurence of the decoder list size bound in their soundness error formula, which can be replaced by a linear term.   
+In the course the latter we clarify two points of \cite{ethSTARK}, which are the usage of degree correction factors (these are not needed for the DEEP method), and the quadratic occurence of the decoder list size bound in their soundness error formula, which can be replaced by a linear term.   
 
 We assume that the reader knows (public-coin) interactive oracle proofs and their security notions  \cite{IOPs}, such as soundness, proof of knowledge, and statistical (i.e. perfect) honest verifier zero-knowledge. 
 Any IOP with these security properties can be compiled into a succinct non-interact-ive argument of knowledge in the random oracle model \cite{IOPs}:
@@ -248,26 +248,28 @@ Given any subset $V\subseteq F^D$, we denote by
 the minimal distance of $f\in F^D$ to $V$, and likewise we define the minimal fractional Hamming distance.
 We denote by
 \begin{equation*}
-\RS_k[F,D] = \big\{ \left.p(x)\right|_{x\in D} : p(X)\in F[X], \deg p(X) < k\big\}
+\RS_k[F,D] = \big\{ \left.p(x)\right|_{x\in D} : p(X)\in F[X], \deg p(X) \leq k-1 \big\}
 \end{equation*}
 the Reed-Solomon code of rate $\rho = \frac{k}{n}$ over the domain of definition $D\subseteq F^*$. 
-Whenever we say that a polynomial $p(X)$ belongs to $\RS_k[F,D]$, we mean that its domain evaluation $p(x)|_{x\in D}$, i.e. the functional restriction to $D$, is a code word. 
+(Here, $p(x)|_{x\in D}$ denotes the domain evaluation, i.e.  the functional restriction of $p(x)$ to $D$.)
+Whenever we say that a polynomial $p(X)$ belongs to $\RS_k[F,D]$, we mean that its domain evaluation $p(x)|_{x\in D}$ is a code word. 
 
 In the context of oracle proofs, we denote oracles for  functions $f\in F^D$ by
-$\big[ f \big]$, and occationally call them \textit{domain evaluation oracles} to distinguish from oracles of polynomial IOPs \cite{DARK}, which model polynomial commitment schemes.
-In order to achieve a closer alignment with the compiled protocol in the random oracle model, we prefer to say that a party $P$ (the prover) ``sends'' $[f]$ to another party $V$ (the verifier), meaning that $P$ sets up the oracle for $f$ and $V$ obtains oracle access for it.
+$\big[ f \big]$, and occasionally call them \textit{domain evaluation oracles} to distinguish from the oracle notion of polynomial IOPs \cite{DARK}, which models an ideal polynomial commitment scheme.
+In order to a closer alignment with the compiled protocol in the random oracle model, we prefer to say that a party $P$ (the prover) ``sends'' $[f]$ to another party $V$ (the verifier), meaning that $P$ sets
+up the oracle for $f$ and $V$ obtains oracle access for it.
 
 
 \chapter{Correlated agreement}
 
 As in polynomial IOPs, building random linear combinations is the core reduction argument in FRI . 
-While the soundness of it is easily proven for polynomial IOPs \cite{DARK}, where oracles model polynomial commitment schemes, this is not the case for domain evaluations. 
+While the soundness of it is easily proven for polynomial IOPs, this is not the case for domain evaluations. 
 Even in the most elementary case, proving that if with noticeable probability a random linear combination  of two  given functions $f_0$, $f_1$ is $\theta$-close to a Reed-Solomon codeword, i.e.
 \[
 \delta\big(f_0 + \lambda\cdot f_1, \RS_k[F,D]\big) \leq \theta,
 \]
  then a similar proximity  would hold for $f_0$ and $f_1$ , is non-trivial, in particular when targeting only a small increase in the distance bound $\theta$.  
-The most advanced result is the correlated agreement theorem (or proximity gap theorem) of Ben-Sasson, et al. \cite{ProximityGaps}.
+The most advanced result is the correlated agreement theorem (or \textit{proximity gap theorem}) of Ben-Sasson, et al. \cite{ProximityGaps}.
 We state it for the case of algebraic curves, which is typically favored in the context of proof composition.
 
 \begin{thm}
@@ -294,7 +296,7 @@ In particular,
 for every $\lambda\in F$. 
 \end{thm}
 
-The proof of the correlated agreement theorem, including concrete values for $\varepsilon$, is an algebraic analysis of the Berlekamp-Welch or the Guruswami-Sudan list decoder over the rational function field $K=F(Z)$. 
+The proof of the correlated agreement theorem, including concrete values for the soundness error bound $\varepsilon$, is an algebraic analysis of the Berlekamp-Welch or the Guruswami-Sudan list decoder over the rational function field $K=F(Z)$. 
 It uses the Polichuk-Spielmann lemma to “glue together” the outputs of the decoder for $f_0 + \lambda\cdot f_1 + \ldots +\lambda^{N-1}\cdot f_{N-1}$ over the “small” field $F$ by means of the decoder result for the word 
 \[
 f_0 + Z\cdot f_1 + \ldots + Z^{N-1}\cdot f_{N-1} \in K^D
@@ -344,7 +346,7 @@ FRI is an interactive oracle proof for $f$ being close to a word from $\RS_k[F,D
 \[
 \delta( f, \RS_k[F,D]) \leq \theta,
 \]
-for a \textit{proximity parameter} $\theta$ of at most the Johnson list decoding bound. % $\theta < 1-\sqrt\rho$.
+given a \textit{proximity parameter} $\theta$ of at most the Johnson list decoding bound. % $\theta < 1-\sqrt\rho$.
 %
 As most interactive oracle proofs, the FRI protocol is comprised of a \textit{commit phase} and a \textit{query phase}.
 The commit phase consists of one or several rounds, in which the prover sends domain evaluation oracles to the verifier, who then responds with a random challenge.
@@ -501,7 +503,7 @@ sends the oracle of it,
 [h(x)|_{x\in D}],
 \]
 to the verifier.
-Then both prover and verifier continue with FRI for $h(X)$. 
+Then both prover and verifier continue with FRI for $h$. 
 Each $x_0\sample D_0=D$ from the query phase of FRI is used to additionally check consistency between the oracle for $h(X)$ and the ones in the batch, $q_0(X),\ldots, q_{L-1}(X)$, using \eqref{e:FRIbatchPoly}. 
 
 %As for a FRI reduction step, the soundness error of the batching is
@@ -532,12 +534,13 @@ Each $x_0\sample D_0=D$ from the query phase of FRI is used to additionally chec
 %
 %As a consequence we have the following soundness error for batched FRI. This is Theorem 3.8 in Ben-Sasson, et al., 2020, adapted to the algebraic batching case.
 
-The soundness analysis of FRI is based on a strengthening of the correlated agreement theorem, which allows to additionally keep track of the success probability for the FRI query phase by a sub-probability measure $\mu$
-We state that \textit{weighted} correlated agreement theorem in Appendix \ref{s:WeigthedCorrelatedAgreement}.
+The soundness analysis of FRI is based on a strengthening of the correlated agreement theorem, which allows to additionally keep track of the success probability for the FRI query phase by a sub-probability measure $\mu$.
+We state that \textit{weighted correlated agreement theorem} in Appendix \ref{s:WeigthedCorrelatedAgreement}.
 %For brevity we skip the explicit formulation of that weighted correlated agreement theorem, and refer to the full version of \cite{ProximityGaps}, Section 7.
 For proximity parameters close to the Johnson bound, the soundness error of the batched FRI oracle proof is as follows:
 
 \begin{thm}[Batched FRI soundness error, \cite{ProximityGaps}, Theorem 3.8]
+\label{thm:BatchedFRISoundness}
 Suppose that $q_i\in F^D$, $i=0,\ldots,L-1$, is a batch of functions given by their domain evaluation oracles.
  If an adversary passes batched FRI for $\RS_k[F,D]$ and proximity parameter $\theta =1-\sqrt\rho \cdot \left(1+\frac{1}{2m}\right)$, $m\geq 3$, with a probability larger than
 \begin{equation}
@@ -560,11 +563,11 @@ The first two terms in \eqref{e:EpsilonFRI},
 \varepsilon_C= \left(L-\frac{1}{2}\right) \cdot \frac {\left(m+ \frac{1}{2}\right)^7}{2\cdot\sqrt\rho^3}\cdot \frac{|D_0|^2}{|F|} 
 + \frac{(2m+1)\cdot (|D_0|+1)\cdot \sum_{i=1}^{r} a_i}{|F|},
 \] 
-correspond to soundness error of the commit phase, reflecting the possible ``systematic'' error of the correlated agreement theorem collected over the batching and the reduction rounds.
+correspond to soundness error of the commit phase, reflecting the systematic error estimated by the correlated agreement theorem and collected over the batching step and the reduction rounds.
 In words, 
 %if an adversary passes the commit phase such that with a probabability of at least $\varepsilon_C$ (w.r.t. the challenges of the commit phase) the oracles satisfy all consistency checks on a set of density of at least $\alpha = 1-\theta$, then the batch must have correlated agreement with agreement density $\geq \alpha$. 
 if the oracles in the batch do not share the claimed correlated agreement for $\alpha = 1-\theta$, then except with probability $\varepsilon_C$,  the oracles produced during the commit phase cannot be ``nice''. 
-That is, the set where all consistency checks would hold is at most of density $\alpha$.
+That is, the set where all consistency checks would hold is \textit{at most} of density $\alpha$.
 The remaining term, 
 \[
 \varepsilon_Q = (1-\theta)^s,
@@ -710,7 +713,7 @@ $10$ & --	& --	& --  	&  --
 \section{Conjectured security}
 \label{s:FRIConjecture}
 
-In their line of work on FRI the authors make several conjectures on the soundness of FRI for proximity parameters above the Johnson bound. 
+In their line of work on FRI \cite{FRI, DEEPFRI, ProximityGaps} the authors make several conjectures on the soundness of FRI for proximity parameters above the Johnson bound. 
 In the most recent one, they state the following.
 
 \begin{conj}[Full version of \cite{ProximityGaps}, Conjecture 8.4]
@@ -719,8 +722,10 @@ There exist constants $c_1$, $c_2$ such that for all $\theta =1-\rho -\eta$, $\e
 \[
 \varepsilon \leq \frac{1}{(\eta\cdot\rho)^{c_1}} \cdot \frac{(N\cdot n)^{c_2}}{|F|}.
 \]
-For purely linear batching, a similar conjecture is stated.
 \end{conj}
+\begin{rem}
+For purely linear batching, a similar conjecture is stated.
+\end{rem}
 
 We point out that the above conjecture (as well as its corresponding one in \cite{FRI}) is stated isolated from any general conjectured properties on Reed-Solomon codes, such as list decodability up to capacity bound (as done for DEEP method, see Section \ref{s:RSConjecture}). 
 Instead it is rather justified by “\textit{[to the best of our knowledge...] nothing seems to contradict}” .
@@ -762,10 +767,8 @@ linear functionals. To reduce this number, one can add a blinding polynomial
 h(x) \in \RS_k[F,D] 
 \]
 to the batch (coming with the cost of an extra commitment). 
-Then the number of linear functionals revealed on a witness polynomial is reduced to
-\begin{equation}
-b= s. 
-\end{equation}
+Then the number of linear functionals revealed on a witness polynomial is reduced to $b= s$. 
+
 
 In both cases, the randomization can be done without moving beyond $|H|-1$ in degree whenever a subset $B\subseteq H$ with $|B|=b$ remains “unused”, i.e. unconstrained: 
 Instead of taking 
@@ -977,16 +980,16 @@ Running FRI for $\RS_k[F,D]$ with a proximity parameter $\frac{1-\rho}{2}<\theta
 \[
 h(x)=\frac{p(x)-v}{x-z}
 \]
-only proves agreement of $p$ with an evaluation-claim-consistent polynomial of degree $d^+$ on a set of density $\geq1-\theta$. 
+only proves agreement of $p$ with an evaluation-claim-consistent polynomial of degree $d^+ = k$ on a set of density greater than $\alpha = 1-\theta$. 
 This might be not large enough for proving the polynomials of different runs of FRI being equal. 
-In fact, they might differ from claim to claim, unless one runs a joint batched FRI argument on them. 
-Even when the proximity parameter is chosen so that FRI enforces agreement on a set of density $>\sqrt{\rho^+}$, where $\rho^+ = \frac{k+1}{|D|}$, the Guruswami-Sudan list decoding bound shows that there might be 
+In fact, they might differ from claim to claim, unless one runs a joint FRI argument on them. 
+Assuming $\alpha >\sqrt{\rho^+}$, where $\rho^+ = \frac{k+1}{|D|}$, the Guruswami-Sudan list decoding bound shows that there might be 
 \[
-|L|\leq \frac{1}{2\cdot \eta\cdot \rho^+}
+L\leq \frac{1}{2\cdot \eta\cdot \rho^+}
 \]
 such code words. 
 This leads to the idea of list polynomial commitment schemes as in \cite{Redshift} with the following information-theoretic model: 
-The prover sets up an oracle which contains a list of $l$, $1\leq l\leq |L|$, low-degree polynomials, and the oracle is allowed to choose which one to evaluate on a given query. 
+The prover sets up an oracle which contains a list of $l$, $1\leq l\leq L$, low-degree polynomials, and the oracle is allowed to choose which one to evaluate on a given query. 
 Such extended notion is practical as security proofs in the oracle model are similar to polynomial oracle proofs.  
 However, the notion of list polynomial oracles as given in \cite{Redshift} is not strong enough to capture correlated agreement, and as a consequence soundness error bounds are too coarse. 
 For this reason we do not dive into formal details of that model, and instead directly work with DEEP algebraic linking.
@@ -995,7 +998,7 @@ For this reason we do not dive into formal details of that model, and instead di
 \chapter{DEEP-ALI}
 
 In this section we discuss the \textit{DEEP algebraic linking (DEEP-ALI)} \cite{DEEPFRI} and demonstrate its application to proving satisfiability of algebraic intermediate representations (AIR). 
-Other representations such as randomized AIR or Plonk are treated similarly. 
+Other representations such as randomized AIR or Plonk \cite{Plonk} can be treated similarly. 
 
 \section{Algebraic linking and the DEEP method}
  
@@ -1045,7 +1048,7 @@ to corresponding low-degree polynomials.
 %This can be done over a smaller domain than in algebraic linking, as the degree
 Furthermore, by decomposing $h(X)$ into into polynomials of degree $|\Omega|-1$, e.g.
 \begin{equation}
-\label{e:Splitting}
+\label{e:SegmentPolys}
 h(X)=h_0(X)+X^{|\Omega|}\cdot h_1(X)+ \ldots +X^{(d-1)\cdot |\Omega|}\cdot  h_{d-1}(X),
 \end{equation}
 one can even use a sampling domain the size of which is not determined by the degree of $h(X)$. 
@@ -1125,9 +1128,9 @@ where
 \end{equation}
 The reason for this slightly larger choice is due to the evaluation quotients of the protocol, which are subject to the FRI proof. 
 Their denominators are at most quadratic and hence the degree of the non-quotients is bounded by $|H|-1 + 2$.
-The low-degree extensions $p_i(X)\in F[X]$ of the witness functions $g_i$ on $H$ are provided as code words over $D$, and to use again the same code for a polynomial $h(X)$ of larger degree, we split it into segment polynomials as in \eqref{e:Splitting}. 
+The low-degree extensions $p_i(X)\in F[X]$ of the witness functions $g_i$ on $H$ are provided as code words over $D$, and to use again the same code for a polynomial $h(X)$ of larger degree, we split it into segment polynomials as in \eqref{e:SegmentPolys}. 
 %\begin{equation}
-%\label{e:Splitting}
+%\label{e:SegmentPolys}
 %h(X)=h_0(X)+X^{|H|}\cdot h_1(X)+ \ldots +X^{(d-1)\cdot |H|}\cdot  h_{d-1}(X),
 %\end{equation}
 
@@ -1135,7 +1138,7 @@ The low-degree extensions $p_i(X)\in F[X]$ of the witness functions $g_i$ on $H$
 The DEEP-ALI protocol (for simplicity without zero-knowledge) for our AIR is as follows: 
 
 \begin{protocol}[IOP for AIR using DEEP-ALI]
-\label{p:AIRDEEP}
+\label{p:DEEPAIR}
 Let $p_1(X), \ldots, p_w(X)\in F[X]$ be polynomials of degree $\deg p_i(X)\leq |H|-1$ satisfying the AIR constraints \eqref{e:AIRConstraint}, $i=1,\ldots, C$.
 \begin{enumerate}
 \item
@@ -1148,7 +1151,7 @@ The prover computes $h_\lambda(X)\in F[X]$ of degree $\leq d \cdot (|H|-1)$ sati
 \\ 
 = h_\lambda(X)\cdot v_H(X),
 \end{multline*}
-splits it into its segment polynomials $h_{\lambda, j}(X)$, $j=0,\ldots, d-1$, each of degree $\leq |H|-1$, as in \eqref{e:Splitting}, and sends their domain evaluation oracles $[h_{\lambda,0}]$, \ldots, $[h_{\lambda,d - 1}]$ to the verifier.  
+splits it into its segment polynomials $h_{\lambda, j}(X)$, $j=0,\ldots, d-1$, each of degree $\leq |H|-1$, as in \eqref{e:SegmentPolys}, and sends their domain evaluation oracles $[h_{\lambda,0}]$, \ldots, $[h_{\lambda,d - 1}]$ to the verifier.  
 The overall identity to be proven is therefore
 \begin{equation}
 \label{e:OverallIdentityAIR}
@@ -1182,7 +1185,7 @@ If FRI passes, and if the evaluation claims satisfy the overall identity \eqref{
 
 \begin{rem}
 Notice that the polynomial $s_i(X)$ can only be succinctly evaluated outside $H$.
-It is for this reason that $H$ is excluded from the samping space of $z$.
+For this reason that $H$ is excluded from the samping space of $z$.
 \end{rem}
 
 \begin{rem}
@@ -1195,8 +1198,18 @@ In particular the quotient polynomial $h_\lambda(X)$ in our protocol is the same
 \end{multline*}
 which is the batched rational function used in their line of work.
 \end{rem}
+\begin{rem}
+Let us point us the difference of Protocol \ref{p:DEEPAIR} to the IOP given in \cite{ethSTARK}.
+Instead of using a purely linear batching strategy, we use the powers of a single randomness $\lambda$, which is the favoured choice in the context of proof composition.
+Secondly, as in \cite{DEEPFRI} we use multi-point quotients for the witness polynomials which are queried at $z$ and $gz$. 
+This reduces the number of polynomials on which FRI is applied, at the cost of only a slight increase in the choice of $k^+$.
+Thirdly, the way we decompose $h_\lambda(X)$ into segment polynomials  \eqref{e:SegmentPolys} does not further reduce the sampling space for $z$, as is needed when using a FRI-like decomposition.
+%\[
+%h(X) = h_0(X^d) + X \cdot h_1(X^d) + \ldots + X^{d-1}\cdot h_{d-1}(X^d).
+%\] 
+\end{rem}
 
-We finally state the soundness error of Protocol \ref{p:AIRDEEP} in the oracle model.
+We finally state the soundness error of Protocol \ref{p:DEEPAIR} in the oracle model.
 \begin{thm}[DEEP-ALI soundness]
 \label{thm:DEEPsoundness} 
 The above oracle proof for AIR satisfiability has soundness error 
@@ -1205,8 +1218,18 @@ The above oracle proof for AIR satisfiability has soundness error
 %\varepsilon < L^+ \cdot \frac{d\cdot (k^+ - 1) + C}{|F|} + \varepsilon_{FRI},
 \varepsilon \leq L^+ \cdot \left(\frac{C}{|F|} + \frac{d\cdot (k^+ - 1) + (k - 1)}{|F| - |D\cup H|}\right) + \varepsilon_{FRI},
 \end{equation}
-with  $k^+ = k+2$,  $L^+ = \frac{m+\frac{1}{2}}{\sqrt{\rho^+}}$ , $\rho^+=\frac{k^+}{n}$, and $\varepsilon_{FRI}$ being the soundness error for batched FRI for $\alpha^+$-agreement with $RS_k[F,D]$. 
+with  $k^+ = k+2$,  $L^+ = \frac{m+\frac{1}{2}}{\sqrt{\rho^+}}$ , $\rho^+=\frac{k^+}{n}$, and $\varepsilon_{FRI}$ being the soundness error for batched FRI for $\alpha^+$-agreement with $RS_k[F,D]$, Theorem \ref{thm:BatchedFRISoundness}.
 \end{thm}
+
+\begin{rem}
+We point out some differences to the error bound in \cite{ethSTARK}, Theorem 4.
+In our bound the list size bound $L^+$ only occurs linearly instead of quadratically. 
+This due to our more careful analysis of the consequences of the correlated agreement enforced on polynomials produced in different rounds of the protocol. 
+Secondly, as mentioned above, the alternative decomposition of $h_{\lambda}(X)$ into segment polynomials does not reduce the sampling space for $z$ by a factor $d$ larger domain.  
+Less importantly, since we use do algebraic batching using the powers of $\lambda$, the first term incorporates the number of constraints $C$. 
+A purley linear batching strategy, as used in \cite{ethSTARK} leads to $\frac{1}{|F|}$ instead.
+%We further favor multi-point evaluation quotients instead of singe-point ones, which slightly increases the overall degree 
+\end{rem}
 
 \begin{rem}
  In the soundness error formula in  \cite{DEEPFRI}, Theorem 15 , the list bound $L^+$ occurs quadratically. 
@@ -1216,7 +1239,7 @@ For the same reason, the notion of list polynomial commitment schemes from \cite
 This might be acceptable for proving soundness of standard Plonk in the list polynomial oracle model, but not for a larger number of witness columns. 
 \end{rem}
 
-\begin{proof}
+\begin{proof}[Proof of Theorem \ref{thm:DEEPsoundness}]
 Let us denote $\varepsilon_1=L^+ \cdot \frac{C}{|F|}$, $\varepsilon_2 = L^+ \cdot  \frac{d\cdot (k^+ - 1) + (k - 1)}{|F| - |D\cup H|}$ , and $\varepsilon_3=\varepsilon_{FRI}$. 
 Suppose that $P^*$ is an adversary which succeeds the verifier with a probability exceeding $\varepsilon =\varepsilon_1+\varepsilon_2+\varepsilon_3$ .
 Then there exists a first message of $P^*$, i.e. words  $f_1, \ldots, f_w$  on $D$, on which $P^*$ succeeds with probability $> \varepsilon$ , and hence
@@ -1338,9 +1361,10 @@ This completes the proof.
 We only provide a brief sketch how to build the extractor in the oracle model, given a prover $P^*$ which succeeds with a probability of that exceeds the soundness error bound from Theorem \ref{thm:DEEPsoundness}:
 \begin{enumerate}
 \item
-Sample a “good” first message $[f_1],\ldots , [f_w]$ on which the prover succeeds with a probability greater than the soundness error from Theorem \ref{thm:DEEPsoundness}.
+Sample a “good” first message $[f_1],\ldots , [f_w]$ on which the prover succeeds with a probability greater than the soundness error bound from Theorem \ref{thm:DEEPsoundness}.
 
 \item
+In this step we build a straight-line extractor from the “good” first message $[f_1],\ldots , [f_w]$ pbtained in Step (1):
 Read $f_1, \ldots ,f_w$ from the oracles. 
 By the proof of Theorem \ref{thm:DEEPsoundness}, $(f_1,\ldots ,f_w)$ agrees with an AIR solution $(p_1(X),\ldots ,p_w(X))\in F[X]^w$ on a set $A$ of density $\geq \alpha^+$. 
 To obtain this solution, one repeatedly applies the Guruswami-Sudan list decoder\footnotemark and   “intersects” their outputs as described in \cite{ethSTARK}, Section 5.5.
@@ -1351,33 +1375,33 @@ However, its run-time analysis in the number of operations over $F$ is probably 
 }%
 \end{enumerate}
 
-The first step takes expected time $O\left(\nicefrac{1}{\varepsilon}\right)$, and the Gurswami-Sudan decoder runs in at most $O\left(|D|^{15}\right)$ field operations, see Remark \ref{rem:GuruswamiSudanTime}.
-To obtain strict polynomial running time, at the cost of having a success probability $<1$, one may stop the sampling after a multiple of $\nicefrac{1}{\varepsilon}$.
+The first step takes expected time $O\left(\nicefrac{1}{\varepsilon}\right)$, and the Gurswami-Sudan decoder consumes at most $O\left(|D|^{15}\right)$ field operations, see Remark \ref{rem:GuruswamiSudanTime}.
+To obtain strict polynomial running time, at the cost of having a success probability $<1$, one may stop the sampling after an appropriate multiple of $\nicefrac{1}{\varepsilon}$.
  
 \subsection{Boosting soundness}
 In this section we outline standard techniques to lower the DEEP-ALI soundness error for AIRs over small fields $F$. 
-(See also the ethSTARK documentation \cite{ethSTARK}, or the plonky2 writeup \cite{PolygonZero}.)
+(See \cite{ethSTARK}, or \cite{PolygonZero}.)
 
 \subsubsection{Using extension fields}
-One simply draws queries (for example the DEEP queries and the one from FRI) from a suitable large extension field $F_e$ of $F$.
+One simply draws queries (for example the DEEP queries and the FRI challenges) from a suitable large extension field $F_e$ of $F$.
 The soundness error bound lowers accordingly, replacing $|F|$ with $|F_e|$. 
 (Notice that the disadvantage of applying this approach to the entire protocol is that all FRI quotients have to be computed over $F_e$.)
  
 \subsubsection{Increasing the number of DEEP queries}
 Instead of drawing the DEEP query from an extension field, one may also take several DEEP queries $z_1,\ldots , z_N$ from $F\setminus D$, and apply FRI to the batch of all resulting quotients. 
-The corresponding $L^+\cdot\frac{d\cdot (k^+-1)}{|F|}$ term in the soundness error bound is then lowered to  
+The corresponding $L^+\cdot\frac{d\cdot (k^+-1)+ (k -1)}{|F|\setminus (D\cup H)}$ term in the soundness error bound of Theorem \ref{thm:DEEPsoundness} is then lowered to  
 \[
 \left(L^+\cdot\frac{d\cdot (k^+ - 1) + (k - 1)}{|F\setminus (D\cup H)|}\right)^N
 \]
 instead. 
-Note that resampling of FRI queries would increase the proof size exponentially in $N$. 
+Notice that resampling of FRI challenges would increase the proof size exponentially in $N$. 
 Hence for  FRI, extension field sampling is preferable.  
 
 \section{Beyond the Johnson bound?}
 \label{s:RSConjecture}
 
-The soundness error for FRI alone (aforementioned Conjecture \ref{con:FRIsoundness}) is not good enough to argue the security of DEEP-ALI beyond the Guruswami-Sudan list decoding bound. 
-For that reason we also state a general conjecture on the list decodability of Reed-Solomon codes, which is used by Ben-Sasson et al. to conjecture the soundness error of DEEP-FRI up to capacity bound. 
+The conjectured soundness error for FRI alone (Conjecture \ref{con:FRIsoundness}) is not good enough to argue the security of DEEP-ALI beyond the Guruswami-Sudan list decoding bound. 
+For that reason we also cite a general conjecture on the list decodability of Reed-Solomon codes, which is used by Ben-Sasson et al. to conjecture the soundness error of DEEP-FRI up to capacity bound. 
 
 \begin{conj}
 (\cite{DEEPFRI}, Conjecture 21) 
@@ -1386,14 +1410,16 @@ Then there exists a constant $C_\rho$  such that for every $\theta =1-\rho -\eta
 \[
 L \leq\left(\frac{|D|}{\eta}\right)^{C_\rho}.
 \]
-(Note: No concrete assumptions on the constant $C_\rho$ is made.)
 \end{conj}
+\begin{rem}
+No concrete assumptions on the constant $C_\rho$ are made in \cite{DEEPFRI}.
+\end{rem}
 
-For quite large fields $F$ (compared to the block length $|D|=n$) there are linear codes which are list decodable up to capacity bound $1-\rho$, such as the folded Reed-Solomon codes (see the Guruswami 2007 survey). 
-In the case of bounded alphabet, Guruswami \cite{ListDecodingBook} demonstrates binary linear codes which are list decodable to the Zyablow bound $\frac{1-\rho}{H}$ (here, $H$ is the entropy of the code) and uses such codes to construct examples that approach capacity bound, having list size $L=O\left(\frac{1}{\eta}\right)$. 
+For quite large fields $F$ (compared to the block length $|D|=n$) there are linear codes which are list decodable up to capacity bound $1-\rho$, such as the \textit{folded Reed-Solomon codes} (see \cite{ListDecodingBook}, e.g.). 
+In the case of a bounded alphabet, Guruswami \cite{ListDecodingBook} demonstrates binary linear codes which are list decodable to the Zyablow bound $\frac{1-\rho}{H}$ (here, $H$ is the entropy of the code) and uses such codes to construct examples that approach capacity bound, having list size $L=O\left(\frac{1}{\eta}\right)$. 
 
 However, practitioners seem to avoid this conjecture. 
-The ethSTARK \cite{ethSTARK} takes a toy protocol as a representative for the entire DEEP-ALI of AIR, whereas the plonky2 writeup \cite{PolygonZero} only sketches soundness in the polynomial oracle model, with no reference to list bounds.
+The ethSTARK documentation \cite{ethSTARK} takes a toy protocol as a representative for the entire DEEP-ALI of AIR,  whereas the plonky2 writeup \cite{PolygonZero} only sketches soundness in the polynomial oracle model, with no reference to list bounds.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1406,7 +1432,7 @@ The ethSTARK \cite{ethSTARK} takes a toy protocol as a representative for the en
 \chapter{Appendix}
 \label{s:Appendix}
 
-In this section we recap well-known facts on decodability of Reed-Solomon codes\footnotemark, and describe the weighted variant of Theorem \ref{thm:CorrelatedAgreement}, which is used for the soundness analysis of FRI.
+In this section we recap well-known facts on decodability of Reed-Solomon codes\footnotemark, and describe the weighted variant of Theorem \ref{thm:CorrelatedAgreement}, which is used by the soundness analysis of FRI.
 \footnotetext{%
 The survey by Guruswami \cite{ListDecodingBook} is a recommended source.
 }
