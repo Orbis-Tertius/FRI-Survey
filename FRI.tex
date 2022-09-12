@@ -1335,20 +1335,20 @@ One simply draws queries (for example the DEEP queries and the FRI challenges) f
 The soundness error bound lowers accordingly, replacing $|F|$ with $|F_e|$. 
 (Notice that the disadvantage of applying this approach to the entire protocol is that all FRI quotients have to be computed over $F_e$.)
  
-\subsubsection{Increasing the number of DEEP queries}
+\subsubsection{Increasing the number of protocol challenges}
 Instead of drawing the DEEP query from an extension field, one may also take several DEEP queries $z_1,\ldots , z_{N_z}$ from $F\setminus D$, and apply FRI to the batch of all resulting quotients. 
 The corresponding $L^+\cdot\frac{d\cdot (k^+-1)+ (k -1)}{|F|\setminus (D\cup H)}$ term in the soundness error bound of Theorem \ref{thm:DEEPsoundness} is then lowered to  
 \[
-\left(L^+\cdot\frac{d\cdot (k^+ - 1) + (k - 1)}{|F\setminus (D\cup H)|}\right)^{N_z}
+\varepsilon_2 = \left(L^+\cdot\frac{d\cdot (k^+ - 1) + (k - 1)}{|F\setminus (D\cup H)|}\right)^{N_z}
 \]
 instead. 
-Similarly, the first verifier challenge $\lambda$ can be sampled $N_\lambda$ times, to yield a lowered soundness error of the first round,
+Likewise, the first verifier challenge $\lambda$ can be sampled $N_\lambda$ times, yielding a lowered soundness error of the first round,
 \[
-\left(L^+\cdot\frac{C}{|F|}\right)^{N_\lambda}.
+\varepsilon_1 = \left(L^+\cdot\frac{C}{|F|}\right)^{N_\lambda}.
 \]
-Again, this comes at the cost of increasing the number of polynomials in the batch for FRI by the factor $N_\lambda$, which can be still acceptable.
-However, the resampling of FRI challenges would increase the proof size too much. 
-Hence at least for  FRI, extension field sampling is preferable.  
+Note that this increases only the number of segment polynomials of $h_\lambda(X)$ in the batch for FRI (by the factor $N_\lambda$).
+On the contrary, resampling of FRI challenges would increase the proof size too much. 
+Hence for  FRI extension field sampling is preferable.  
 
 \subsection{Beyond the Johnson bound?}
 \label{s:RSConjecture}
