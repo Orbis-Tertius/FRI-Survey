@@ -535,7 +535,7 @@ This is the probability not to detect such a set of non-``nice'' oracles using $
 
 
 
-\subsubsection{Example parameters}
+\subsection{Example parameters}
 
 One way to settle the parameters is as follows. 
 For target security level $2^{-\lambda}$, we assure that 
@@ -556,7 +556,7 @@ Using $m$ from the first step, we determine the number $s$ of query rounds via
 \]
 \end{enumerate}
 
-\subsubsection*{74 bits of security}
+\subsubsection{74 bits of security}
 
 Such a configuration is interesting in practice, as its security can be increased by \textit{grinding} (see \cite{ethSTARK}): 
 Another $16$ bits proof of work bound to the proof generation, and one obtains overall  $90$ bits of security. 
@@ -626,7 +626,7 @@ $10$ & $379$	& $15$	& $3,342,336$ H 	& $62.5$ kB
 \end{itemize}
 
 
-\subsubsection*{112 bits security}
+\subsubsection{112 bits security}
 
 As in the previous setting, we discuss this level of security as it can be improved by grinding, typically up to $128$ bits. 
 All configurations use degree $3$ extensions of $F$.
@@ -644,7 +644,7 @@ $10$ & $379$	& $15$	& $3,342,336$ H 	& $95$ kB
 \end{tabular}
 \end{center}
 
-\subsubsection*{128 bits security}
+\subsubsection{128 bits security}
 These configurations do not use grinding. 
 Again, they use degree $3$ extensions of $F$.
 
@@ -1336,12 +1336,12 @@ To obtain strict polynomial running time, at the cost of having a success probab
 In this section we outline standard techniques to lower the DEEP-ALI soundness error for AIRs over small fields $F$. 
 (See \cite{ethSTARK}, or \cite{PolygonZero}.)
 
-\subsubsection*{Using extension fields}
+\subsubsection{Using extension fields}
 One simply draws queries (for example the DEEP queries and the FRI challenges) from a suitable large extension field $F_e$ of $F$.
 The soundness error bound lowers accordingly, replacing $|F|$ with $|F_e|$. 
 (Notice that the disadvantage of applying this approach to the entire protocol is that all FRI quotients have to be computed over $F_e$.)
  
-\subsubsection*{Increasing the number of DEEP queries}
+\subsubsection{Increasing the number of DEEP queries}
 Instead of drawing the DEEP query from an extension field, one may also take several DEEP queries $z_1,\ldots , z_N$ from $F\setminus D$, and apply FRI to the batch of all resulting quotients. 
 The corresponding $L^+\cdot\frac{d\cdot (k^+-1)+ (k -1)}{|F|\setminus (D\cup H)}$ term in the soundness error bound of Theorem \ref{thm:DEEPsoundness} is then lowered to  
 \[
