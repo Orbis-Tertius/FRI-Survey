@@ -114,15 +114,16 @@
 \author{
     Hab{\"o}ck, Ulrich\thanks{This work is supported by Orbis Labs and Horizenlabs Italia.}
 \\
-    \texttt{ulrich@mlabs.city}
+    \texttt{team@orbislabs.com}
 }
 
 \begin{document}
 %\frontmatter
 \title{%
 A summary on the FRI low degree test
-\\
-{\small Version 1.2}
+%\\
+%{\small Version 1.2}
+%
 }
 \date{%
 September 12, 2022
@@ -373,21 +374,21 @@ on the coset $\pi_i^{-1}(y)=x\cdot\ker(\pi_i)$, and these values are exactly the
 Hence if $\tau$ is a generator of $\ker(\pi_i)=\{1,\tau,\ldots, \tau^{a_i-1}\}$, then
 \begin{equation*}
 \begin{aligned}
-p_i(\pi_i(x)) &= L_0\big(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\big) 
+p_i(\pi_i(x)) &= L_0\left(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\right) 
 \\
 &+ 
-\lambda_i\cdot L_1\big(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\big) 
+\lambda_i\cdot L_1\left(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\right) 
 \\
 &+ \ldots
 \\
-& + \lambda_i^{a_i-1}\cdot L_{a_i-1}\big(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\big) 
+& + \lambda_i^{a_i-1}\cdot L_{a_i-1}\left(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\right) 
 \end{aligned}
 \end{equation*}
 where $(L_0,...,L_{a_i-1})$ is the Lagrange interpolation map for the coset $x\cdot ker(\pi_i)$. 
 In other words, 
 \begin{equation}
 \label{e:FRIconsistency}
-p_i(\pi_i(x)) = \FFT_{\lambda_i / x}\big(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\big),
+p_i(\pi_i(x)) = \FFT_{\lambda_i / x}\left(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\right),
 \end{equation}
 that is the Fourier transform of the vector $\big(p_{i-1}\left(\tau^0\cdot x\right),\ldots, p_{i-1}\left(\tau^{a_i-1}\cdot x\right)\big)$, evaluated at $\frac{\lambda_i}{x}$.
 This equation will be used to check consistency between the provided oracles. 
@@ -1044,11 +1045,8 @@ However, instead of working with these quotients we prefer using polynomial iden
 Satisfiability of an AIR constraint $P_i$ imposed on $a_i\cdot H_i$ is equvialent to 
 \begin{equation}
 \label{e:AIRConstraintIdentity}
-\begin{aligned}
-s_i(X) \cdot P_i\big(p_1(X), \ldots, p_w(X), p_1(g\cdot X), \ldots, p_1&(g\cdot X)\big) 
-\\
-&= 0 \bmod v_H(X),
-\end{aligned}
+s_i(X) \cdot P_i\big(p_1(X), \ldots, p_w(X), p_1(g\cdot X), \ldots, p_1(g\cdot X)\big) 
+= 0 \bmod v_H(X),
 \end{equation}
 where  
 \begin{equation}
@@ -1098,17 +1096,16 @@ The prover sends the domain evaluation oracles  $[p_1], \ldots, [p_w]$ for $p_1(
 %
 \item 
 The prover computes $h_\lambda(X)\in F[X]$ of degree $\leq d \cdot (|H|-1)$ satisfying the identity
-\begin{multline*}
+\begin{equation*}
 \sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X),\ldots ,p_w(X),p_1(gX), \ldots, p_w(gX)) 
-\\ 
 = h_\lambda(X)\cdot v_H(X),
-\end{multline*}
+\end{equation*}
 splits it into its segment polynomials $h_{\lambda, j}(X)$, $j=0,\ldots, d-1$, each of degree $\leq |H|-1$, as in \eqref{e:SegmentPolys}, and sends their domain evaluation oracles $[h_{\lambda,0}]$, \ldots, $[h_{\lambda,d - 1}]$ to the verifier.  
 The overall identity to be proven is therefore
 \begin{equation}
 \label{e:OverallIdentityAIR}
 \begin{aligned}
-\sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X), \ldots, p_w(&X), p_1(gX), \ldots, p_w(gX))
+\sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X), \ldots, p_w(X), p_1(gX)&, \ldots, p_w(gX))
 \\ 
 &= v_H(X)\cdot \sum_{j=0}^{d-1} X^{j\cdot |H|}\cdot  h_{\lambda,j}(X).
 \end{aligned}
@@ -1248,11 +1245,8 @@ for which the overall identity \eqref{e:OverallIdentityAIR} (taking the $q_{\lam
 By the degree of the identity, this configuration is a solution of it, hence $(p_1,\ldots, p_w)\in F[X]^w$ is an $\alpha^+$-configuration for $(f_1,\ldots, f_w)$ which satisfies
 \begin{equation}
 \label{e:OverallIdentityAIRmodH}
-\begin{aligned}
-\sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X), \ldots, p_w(X), p_1(gX),& \ldots, p_w(g X)) 
-\\
-&= 0 \bmod v_H(X).
-\end{aligned}
+\sum_{i=1}^{C} \lambda^{i-1}\cdot s_i(X)\cdot P_i(p_1(X), \ldots, p_w(X), p_1(gX), \ldots, p_w(g X)) 
+= 0 \bmod v_H(X).
 \end{equation}
 %Hence for each good $(f_1,\ldots, f_w)$ and good $\lambda$, there exists a $(p_1,\ldots, p_w)\in F[X]^w$ which solves the  has correlated agreement with $(f_1,\ldots,f_w)$ on a set of density $\geq\alpha^+$, we call it a ``$w$-configuration''.
 %for the given $\lambda$.
@@ -1656,14 +1650,17 @@ if there exists a $p \in \RS_k[F,D]$ for which $agree_\mu(f,p)>\alpha$.
 \]
 for an integer value $a_x$ . 
 Suppose that for $f_0$, $f_1$, \ldots, $f_{N-1}\in F^D$, 
-\begin{multline} 
+\begin{equation*}
+\begin{aligned}
 \frac{
 	\big|\big\{ \lambda : \agree_\mu(f_0 + \lambda\cdot f_1+ \ldots +\lambda^{N-1}\cdot f_{N-1}, \RS_k)>\alpha \big\}\big|
 	}
 	{|F|}
+\qquad\qquad\qquad
 \\
 > \max\left(\varepsilon_J, (N-1)\cdot \frac{M\cdot |D|+1}{|F|} \cdot \frac{2m+1}{\sqrt\rho} \right),
-\end{multline}
+\end{aligned}
+\end{equation*}
 with $\varepsilon_J$ as in \eqref{e:epsilonJ}.
 Then there exist polynomials $p_0(X)$, $p_1(X)$, \ldots , $p_{N-1}(X)$ from $\RS_k[F,D]$, and a set $A$ of density $\mu(A)>\alpha$ on which $f_i$ coincides with $p_i$ for all $i=0,\ldots, N-1$. 
 \end{thm}
