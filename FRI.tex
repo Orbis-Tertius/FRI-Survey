@@ -1348,6 +1348,13 @@ This completes the proof.
 %This completes the proof.
 \end{proof}
 
+We note that in Equation \eqref{e:SoundnessDEEPALI}, the term in the brackets is exactly the soundness error bound of the protocol in the polynomial IOP model \cite{DARK}.
+As soundness in this model is essentially based on the Schwartz-Zippel lemma, we believe that the blow-up by the factor $L^+$ holds in general for every (public coin) polynomial IOP when replacing polynomial oracles by domain-evaluation oracles. 
+(At least for the polynomial IOPs we know, such as \cite{Plonk, Sonic, Marlin} or \cite{Darlin}, this is the case.)
+Such a general transformation of polynomial IOPs into ordinary (i.e. domain-evaluation) IOPs would be of interest, as the polynomial IOP model is widely used by practicioners.   
+The protocol design as well as its security analysis is much easier to understand in the polynomial oracle model, and their soundness error bounds could be easily taken over.
+We plan to elaborate on this in a separate document.
+
 
 \subsection{Extractability}
 
