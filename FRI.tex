@@ -1,23 +1,44 @@
 %\documentclass[10pt,a4paper,oneside]{article}
 % !TEX TS-program = pdflatex
 % !TEX encoding = UTF-8 Unicode
-\documentclass[11pt,article,oneside]{memoir} 
-\usepackage{pdfsync}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+
+%\documentclass[11pt,article,oneside]{memoir} 
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+
+\documentclass[11pt]{article}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
 \usepackage{lmodern}
-%\usepackage[ngerman]{babel} 
 
-\usepackage{lipsum}
-\usepackage{multicol}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[total={7in,9in}]{geometry}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage[bookmarks, colorlinks=false, pdftitle={A summary on the FRI low degree test}, pdfauthor={author}]{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{float}
+\usetikzlibrary{shapes, fit}
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+\setlength{\marginparwidth}{3cm}
 
-\usepackage{amsmath, amssymb, amsthm, mathrsfs,nicefrac,MnSymbol}
-\usepackage{multirow,tabularx,colortbl,hhline}
+
+
+\usepackage{url}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
 \usepackage{nicefrac}
 
+\usepackage[n,advantage,operators,sets,adversary,landau,probability,notions,logic,ff,mm,primitives,events, complexity,asymptotics,keys]{cryptocode}
 
 \usepackage{listings}
-\usepackage{color}
 \usepackage{footnote}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -43,20 +64,6 @@
 
 \RequirePackage{etex}
 
-\usepackage{graphicx,xcolor}
-\graphicspath{{./figures/}}
-
-
-
-% GRAPHICS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\usepackage{framed}
-\definecolor{shadecolor}{rgb}{0.9,0.9,0.9}
-\usepackage{watermark}
-% see later for watermark declaration
-
-
 % Theorem environments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newtheorem{thm}{Theorem}[]
@@ -76,38 +83,7 @@
 \newtheorem{rems}[thm]{Remarks}
 \newtheorem{rem*}[]{Remark}
 
-%\renewcommand{\theenumi}{\roman{enumi}}
-\renewcommand{\labelenumi}{(\theenumi)}
-\newcommand\itemref[1]{(\ref{#1})}
-%\newcommand{\COMent}[1]{}
-
-
-% OWN FLOAT ENVIRONMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%\usepackage{newfloat, caption}
-%\DeclareFloatingEnvironment[fileext=frm,placement={!ht},name=Protocol]{myfloat}
-%
-%\captionsetup[myfloat]{labelfont=bf}
-%\usepackage[framemethod=TikZ]{mdframed}
-%
-%\newenvironment{framedprotocol}
-%{
-%	\begin{myfloat}
-%	\begin{mdframed}%[roundcorner=10pt,backgroundcolor=blue!10]
-%}
-%{
-%	\end{mdframed}
-%	\end{myfloat}
-%}
-
-
-% PSEUDOCODE and MATH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{algorithm,algorithmicx}
-\usepackage{algpseudocode}
-
-\usepackage[n,advantage,operators,sets,adversary,landau,probability,notions,logic,ff,mm,primitives,events, complexity,asymptotics,keys]{cryptocode}
-
-
+% MATH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\R}{\mathbb{R}}
@@ -134,29 +110,6 @@
 
 \renewcommand{\adv}{\mathsf{Adv}}
 
-
-%\renewcommand{\negl}{\nu}
-
-
-%\newcommand{\trans}{\mathsf{Trans}}
-
-%\DeclareMathOperator{\generate}{\mathsf{Generate}}
-%\DeclareMathOperator{\present}{\mathsf{Present}}
-%\DeclareMathOperator{\issue}{\mathsf{Issue}}
-%\newcommand{\user}{\mathsf{User}}
-
-% NOTES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Select what to do with todonotes: 
-% \usepackage[disable]{todonotes} % notes not showed
-\usepackage[draft,textsize=small]{todonotes}   % notes showed
-
-
-
-
-% HYPERREFS und URLs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage[bookmarks, colorlinks=false, pdftitle={A summary on the FRI low degree test}, pdfauthor={author}]{hyperref}
-  \usepackage{url}
 
 \author{
     Hab{\"o}ck, Ulrich\thanks{This work is supported by Orbis Labs and Horizenlabs Italia.}
@@ -187,12 +140,12 @@ In particular, we demonstrate the DEEP method applied to proving satisifiability
 
 %Keywords: SNARKs, recursive proofs, aggregation scheme
 
-\begin{KeepFromToc}
-  \tableofcontents
-\end{KeepFromToc}
+%\begin{KeepFromToc}
+ \tableofcontents
+%\end{KeepFromToc}
 
 %\mainmatter
-\chapter{Introduction}
+\section{Introduction}
 FRI, in full length \textit{Fast Reed-Solomon Code Interactive Oracle Proof of Proximity}, is a low-degree test for functions on an FFT domain, i.e. a smooth multiplicative subgroup $D$ of a finite field $F$.  
 Given a function 
 \[
@@ -230,7 +183,7 @@ Any IOP with these security properties can be compiled into a succinct non-inter
 The prover oracle messages are committed by Merkle roots using the random oracle, and the verifier coins are the answers of the random oracle given the prover messages as its input.
 
 
-\section{Notation}
+\subsection{Notation}
 Throughout the document we assume that the size of the sampling domain $D$ and the number of coefficients $k$ are both powers of two, and that the multiplicative subgroup $F^*$ of the finite field $F$ is smooth enough to contain a subgroup of order $k$ and $|D|$. 
 The absolute Hamming distance between two function $f,g\in F^D$ is
 \begin{equation*}
@@ -260,7 +213,7 @@ In order to a closer alignment with the compiled protocol in the random oracle m
 up the oracle for $f$ and $V$ obtains oracle access for it.
 
 
-\chapter{Correlated agreement}
+\section{Correlated agreement}
 
 As in polynomial IOPs, building random linear combinations is the core reduction argument in FRI . 
 While the soundness of it is easily proven for polynomial IOPs, this is not the case for domain evaluations. 
@@ -297,7 +250,7 @@ for every $\lambda\in F$.
 \end{thm}
 
 The proof of the correlated agreement theorem, including concrete values for the soundness error bound $\varepsilon$, is an algebraic analysis of the Berlekamp-Welch or the Guruswami-Sudan list decoder over the rational function field $K=F(Z)$. 
-It uses the Polichuk-Spielmann lemma to “glue together” the outputs of the decoder for $f_0 + \lambda\cdot f_1 + \ldots +\lambda^{N-1}\cdot f_{N-1}$ over the “small” field $F$ by means of the decoder result for the word 
+It uses the Polichuk-Spielmann lemma to ``glue together'' the outputs of the decoder for $f_0 + \lambda\cdot f_1 + \ldots +\lambda^{N-1}\cdot f_{N-1}$ over the ``small'' field $F$ by means of the decoder result for the word 
 \[
 f_0 + Z\cdot f_1 + \ldots + Z^{N-1}\cdot f_{N-1} \in K^D
 \]
@@ -329,13 +282,13 @@ See \cite{ProximityGaps}, Theorem I.2. % full paper Theorem 1.4 and 1.5.
 
 Note that in contrast to the unique decoding regime, the sampling domain size $|D|$ occurs quadratically in the error bound, and therefore the field needs to be significantly larger to obtain the same magnitude of soundness as in the unique decoding regime.  
 This quadratic occurrence is inherently connected with the Guruswami-Sudan-Johnson list size bound. 
-It is conjectured by \cite{DEEPFRI} that Reed-Solomon codes over prime fields $F$ are more “nicely” list decodable, even up to capacity bound $1-\rho$, and that the sampling domain size occurs only linearly in the error bound. 
+It is conjectured by \cite{DEEPFRI} that Reed-Solomon codes over prime fields $F$ are more ``nicely'' list decodable, even up to capacity bound $1-\rho$, and that the sampling domain size occurs only linearly in the error bound. 
 We will discuss this conjecture in Section \ref{s:RSConjecture}. 
 
 
 
 
-\chapter{FRI proof of proximity}
+\section{FRI proof of proximity}
 
 %Let $D$ be a multiplicative subgroup of a finite field $F$, $|D|=2^m$, and let be $k$ a non-trivial factor of $|D|$. 
 Given a function $f\in F^D$ and its  domain evaluation oracle 
@@ -355,7 +308,7 @@ In the concluding query phase, the verifier asks for openings of the oracles at 
 These openings are then used to check consistency of each reduction step of the commit phase.
 
 
-\section{Reduction}
+\subsection{Reduction}
 
 
 The commit phase of FRI starts with the instance to proven, i.e. the polynomial $p_0(X)=p(X)$ and its domain evaluation over $D_0=D$.
@@ -469,7 +422,7 @@ a_i\cdot (2 + \log_2(a_i)) < 1 + \log_2 |D_i|,
 which holds for most domain sizes when $a_i=2$. 
 Already the closest larger choice $a_i = 2^2$ leads to $|D_i|>2^{15}$, and hence no improvement in computations.
  
-\section{Sampling phase}
+\subsection{Sampling phase}
 
 In the query phase the verifier samples at random points from the defining domains of the oracles, and use the returned values to check the consistency of all reduction steps.
 \begin{protocol}[FRI query phase]
@@ -487,7 +440,7 @@ for every $i=1,\ldots,r$, by querying  the values of each $p_{i-1}$  over the co
 Notice that unlike in \cite{ProximityGaps} we choose $x_0$ uniformly from $D_0$, and form the $x_i$ by projecting $x_{i-1}$ onto $D_i$. 
 In distribution, this way of sampling is equivalent to the one in the paper, which starts with $x_r\sample D_r$,  and then samples $x_{i-1}$ uniformly from the coset  $\pi_i^{-1}(x_i)$.
 
-\section{Batching}
+\subsection{Batching}
 As for linear polynomial commitment schemes, batching is done via random linear combinations. 
 We will only discuss the algebraic variant, which uses powers of a single random challenge. 
 (Again, this is the one favored in the context of proof composition.)
@@ -512,12 +465,12 @@ Each $x_0\sample D_0=D$ from the query phase of FRI is used to additionally chec
 %\]
 %where $\varepsilon$ is the error in the linear variant of the correlated agreement theorem.
 
-\section{Soundness}
+\subsection{Soundness}
 
 
 
 
-%\subsection{Proven soundness error}
+%\subsubsection{Proven soundness error}
 
 %The proof of the soundness error for FRI is as for Lemma 8.2 in Ben-Sasson, et al., 2020, replacing the error bound of the affine batching step by the algebraic curve variant:
 
@@ -582,7 +535,7 @@ This is the probability not to detect such a set of non-``nice'' oracles using $
 
 
 
-\subsection{Example parameters}
+\subsubsection{Example parameters}
 
 One way to settle the parameters is as follows. 
 For target security level $2^{-\lambda}$, we assure that 
@@ -603,7 +556,7 @@ Using $m$ from the first step, we determine the number $s$ of query rounds via
 \]
 \end{enumerate}
 
-\subsubsection{74 bits of security}
+\subsubsection*{74 bits of security}
 
 Such a configuration is interesting in practice, as its security can be increased by \textit{grinding} (see \cite{ethSTARK}): 
 Another $16$ bits proof of work bound to the proof generation, and one obtains overall  $90$ bits of security. 
@@ -673,7 +626,7 @@ $10$ & $379$	& $15$	& $3,342,336$ H 	& $62.5$ kB
 \end{itemize}
 
 
-\subsubsection{112 bits security}
+\subsubsection*{112 bits security}
 
 As in the previous setting, we discuss this level of security as it can be improved by grinding, typically up to $128$ bits. 
 All configurations use degree $3$ extensions of $F$.
@@ -691,7 +644,7 @@ $10$ & $379$	& $15$	& $3,342,336$ H 	& $95$ kB
 \end{tabular}
 \end{center}
 
-\subsubsection{128 bits security}
+\subsubsection*{128 bits security}
 These configurations do not use grinding. 
 Again, they use degree $3$ extensions of $F$.
 
@@ -710,7 +663,7 @@ $10$ & --	& --	& --  	&  --
 \end{center}
 
 
-\section{Conjectured security}
+\subsection{Conjectured security}
 \label{s:FRIConjecture}
 
 In their line of work on FRI \cite{FRI, DEEPFRI, ProximityGaps} the authors make several conjectures on the soundness of FRI for proximity parameters above the Johnson bound. 
@@ -728,7 +681,7 @@ For purely linear batching, a similar conjecture is stated.
 \end{rem}
 
 We point out that the above conjecture (as well as its corresponding one in \cite{FRI}) is stated isolated from any general conjectured properties on Reed-Solomon codes, such as list decodability up to capacity bound (as done for DEEP method, see Section \ref{s:RSConjecture}). 
-Instead it is rather justified by “\textit{[to the best of our knowledge...] nothing seems to contradict}” .
+Instead it is rather justified by ``\textit{[to the best of our knowledge...] nothing seems to contradict}'' .
 The authors consider the choice of $c_1=c_2=2$ reasonable, and for fields of characteristic $q>n$ they estimate that $c_1=c_2=1$. 
 %For characteristics $q<n$, a counter example from Appendix B of  \cite{DEEPFRI} contradicts the latter choice of constants.  
 
@@ -736,7 +689,7 @@ The $c_1=c_2=1$ assumption is of particular interest for practitioners, as it yi
 %, i.e. their standard recursive configuration, their high rate recursive configuration, as well as an even higher rate config for their final proofs). 
 
 
-\section{Adding zero-knowledge}
+\subsection{Adding zero-knowledge}
 
 Zero-knowledge for FRI has to be provided on application level. 
 In our use cases, the witnesses of an argument correspond to the values of some polynomial $q(X)$ on a given domain $H$ (the proving domain for Plonk, say). 
@@ -770,7 +723,7 @@ to the batch (coming with the cost of an extra commitment).
 Then the number of linear functionals revealed on a witness polynomial is reduced to $b= s$. 
 
 
-In both cases, the randomization can be done without moving beyond $|H|-1$ in degree whenever a subset $B\subseteq H$ with $|B|=b$ remains “unused”, i.e. unconstrained: 
+In both cases, the randomization can be done without moving beyond $|H|-1$ in degree whenever a subset $B\subseteq H$ with $|B|=b$ remains ``unused'', i.e. unconstrained: 
 Instead of taking 
 \[
 p(X)= p(X) + r(X)\cdot v_H(X),
@@ -778,7 +731,7 @@ p(X)= p(X) + r(X)\cdot v_H(X),
 where $v_H(X)$ is the vanishing polynomial of $H$ and $r(X)$ a random polynomial of $\deg r(X)= b - 1$, one takes $p(X)$ as the polynomial interpolated from the witness values on $H\setminus B$ and randomly chosen values on $B$.
 
 
-\chapter{FRI as a polynomial commitment scheme}
+\section{FRI as a polynomial commitment scheme}
 \label{ch:Polycommit}
 
 FRI can be turned into a polynomial commitment scheme by means of the evaluation quotients
@@ -798,11 +751,11 @@ In the list decoding regime the situation is a bit more subtle due to the non-un
 In this case the DEEP method can be viewed as an oracle proof for a more general type of polynomial commitment scheme, called \textit{list polynomial commitment scheme} in \cite{Redshift}. 
 However, as their notion does not cover the power of correlated agreement, we shall only sketch list polynomial commitment schemes.% and devote a separate section for DEEP algebraic linking.
 
-\section{In the unique decoding regime}
+\subsection{In the unique decoding regime}
 For a proximity bound up to the unique decoding radius, i.e. $\theta < \frac{1-\rho}{2}$, the situation is quite simple. 
 However, there are several ways to algebraically link the evaluation identity with a low-degree test. 
 
-\subsection{A first construction}
+\subsubsection{A first construction}
 \label{s:naivePC}
 
 We first discuss a naive scheme, in which the maximum degree corresponds to the degree proven by FRI.
@@ -860,7 +813,7 @@ As a consequence, any other evaluation proof (on the same or any other query) is
 %\]
 %we conclude the formal identity $P_1(X)=P_2(X)$. 
 
-\subsection{The refined scheme}
+\subsubsection{The refined scheme}
 
 By similar reasoning (based on a degree $k=d+1$ polynomial vanishing on a set of density $>\rho$)  we can  remove the degree correction factor in the above naive scheme, running FRI for a proximity parameter $\theta < \frac{1-\rho}{2}$, only on the evaluation quotient of the claim: 
 For any two evaluation claims $(z_1,v_1)$ and $(z_2, v_2)$ we conclude the existence of polynomials $p_1(X)$, $p_2(X)$ of degree $\leq k-1$ and sets $A_1$, $A_2$ of density $1-\theta > \frac{1+\rho}{2}$ such that
@@ -916,7 +869,7 @@ with proximity bound $\theta < \frac{1-\rho}{2}$.
 \end{itemize}
 
 
-\subsection{Multi-point queries}
+\subsubsection{Multi-point queries}
 \label{s:MultiPoint}
 
 Instead of batching several point evaluation quotients, queries for the values of a polynomial $p(X)$ over a small set 
@@ -972,7 +925,7 @@ In our applications the bound on $m_{max}$ is trivially met, as only few values 
 Furthermore, given a polynomial we use multi-point queries of fixed given size $m\leq m_{max}$. 
 As a consequence the maximum degree in the setup can be enlarged to $d_{max}= k+m-1$.  
 
-\section{List commitments}
+\subsection{List commitments}
 
 In the list decoding regime the situation is a bit more subtle. 
 Running FRI for $\RS_k[F,D]$ with a proximity parameter $\frac{1-\rho}{2}<\theta<1-\sqrt\rho$  on an evaluation quotient
@@ -994,14 +947,14 @@ However, the notion of list polynomial oracles as given in \cite{Redshift} is no
 For this reason we do not dive into formal details of that model, and instead directly work with DEEP algebraic linking.
 
 
-\chapter{DEEP-ALI}
+\section{DEEP-ALI}
 
 In this section we discuss the \textit{DEEP algebraic linking (DEEP-ALI)} \cite{DEEPFRI} and demonstrate its application to proving satisfiability of algebraic intermediate representations (AIR). 
 Other representations such as randomized AIR or Plonk \cite{Plonk} can be treated similarly. 
 
-\section{Algebraic linking and the DEEP method}
+\subsection{Algebraic linking and the DEEP method}
  
-Algebraic linking transforms satisfiability of algebraic identities over algebraic subsets of $F$ into proximity problems of low-degree extensions to Reed-Solomon codes over “outside” domains (i.e. disjoint to the algebraic subset) . 
+Algebraic linking transforms satisfiability of algebraic identities over algebraic subsets of $F$ into proximity problems of low-degree extensions to Reed-Solomon codes over ``outside'' domains (i.e. disjoint to the algebraic subset) . 
 A family of functions $g_1,\ldots, g_N$ on $\Omega =\{x_1,...,x_n\}$  satisfies an algebraic identity 
 \[
 P(x, g_1(x),\ldots, g_N(x)) = 0  
@@ -1059,13 +1012,13 @@ For larger proximity parameters, one can generalize the polynomial oracle model 
 In order not to introduce yet another oracle model which reflects this specific correlated agreement property of batched FRI, we directly show how to apply the DEEP method to proving satisfiability of an algebraic intermediate representation.
 
 
-\section{DEEP-ALI of an AIR}
+\subsection{DEEP-ALI of an AIR}
 % \cite{Starks} has a more complex definition of AIR, imposing a fixed logical expression in the satisfiability booleans of the polynomial constraints.
 % \cite{DEEPFRI} already uses only the conjuction of all polynomial constraints.
 
 %We demonstrate the application of DEEP-ALI to an \textit{algebraic intermediate representation (AIR)} as in 
 An \textit{algebraic intermediate representation (AIR)}, see \cite{Starks, DEEPFRI, ethSTARK}, is defined over an FFT domain $H\subset F$ with generator $g$. 
-Each $x$ in $H$ carries a “row” of $w$ witnesses (or, “columns”)
+Each $x$ in $H$ carries a ``row'' of $w$ witnesses (or, ``columns'')
 \[
 (g_1(x),.., g_w(x)),
 \]
@@ -1246,11 +1199,11 @@ Then there exists a first message of $P^*$, i.e. words  $f_1, \ldots, f_w$  on $
 \Pr\big[\lambda : \Pr\left(P^*\text{ succeeds } |\lambda\right) > \varepsilon_2+\varepsilon_3 \big] > \varepsilon_1.
 \]
 (Otherwise $\Pr[P^*\text{ succeeds }] \leq 1\cdot \varepsilon_1+ (\varepsilon_2 + \varepsilon_3)\cdot (1-\varepsilon_1) < \varepsilon_1+ \varepsilon_2 + \varepsilon_3$.) 
-Likewise, for every such “good” $\lambda$ (by the definition of $\varepsilon_1$, there are at least $L^+\cdot C$ many) there exists a second message of $P^*$, i.e. words $h_{\lambda, 0}, \ldots, h_{\lambda, d-1}$ on $D$ such that 
+Likewise, for every such ``good'' $\lambda$ (by the definition of $\varepsilon_1$, there are at least $L^+\cdot C$ many) there exists a second message of $P^*$, i.e. words $h_{\lambda, 0}, \ldots, h_{\lambda, d-1}$ on $D$ such that 
 \[
 \Pr\big[ z\in F\setminus D :  \Pr(P^*\text{ succeeds }| z) >\varepsilon_3 \big] > \varepsilon_2.
 \]
-For each such “good” $z\in F\setminus (D\cup H)$ (by the definition of $\varepsilon_2$, there are more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many) the evaluation claims pass the verifier checks, and moreover the soundness of FRI enforces the evaluation quotients
+For each such ``good'' $z\in F\setminus (D\cup H)$ (by the definition of $\varepsilon_2$, there are more than $L^+\cdot \left(d\cdot (k^+ - 1) + (k - 1)\right)$ many) the evaluation claims pass the verifier checks, and moreover the soundness of FRI enforces the evaluation quotients
 \[ 
 \left( 
 \frac{f_1(x)-V_1(x)}{(x-z)\cdot (x-g\cdot z)}, \ldots, \frac{f_w(x)-V_w(x)}{(x-z)\cdot (x-g\cdot z)}, \frac{h_{\lambda,0}(x)- v_0}{x-z}, \ldots , \frac{h_{d - 1}(x) -v_{d-1}}{x-z}
@@ -1273,7 +1226,7 @@ where each component polynomial is of degree $\leq |H| - 1 + 2 = k^+ -1$, and sa
 
 In what follows we shall call each element from  $F[X]^{l}$, with component polynomials of degree $\leq k^+ - 1$, having correlated agreement with a vector of functions on a set of density $\geq \alpha^+$, an \textit{$\alpha^+$-configuration} for that vector of functions. 
 
-Let us keep a combination of “good” first and second messages  $(f_1,\ldots,f_w)$, $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$ fixed.
+Let us keep a combination of ``good'' first and second messages  $(f_1,\ldots,f_w)$, $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$ fixed.
 We have seen above that the existence of a single ``good'' $z$ implies the existence of an $\alpha^+$-configuration for $(f_1, \ldots, f_w, h_{\lambda,0}, \ldots$, $h_{\lambda,d-1})$.
 %In particular each function in the two messages is $(1-\alpha^+)$-close to a word from $\RS_{k^+}[F,D]$ . 
 %(For now, we ignore the evaluation property of these polynomials.)
@@ -1308,7 +1261,7 @@ By the degree of the identity, this configuration is a solution of it, hence $(p
 Now let us keep a ``good'' first message $(f_1,\ldots, f_w)$ fixed.
 We have seen that for each ``good'' $\lambda$ there exists an \textit{$\alpha^+$-configuration} for $(f_1,\ldots, f_w)$ which  is a solution of \eqref{e:OverallIdentityAIRmodH}.
 Again, by the Guruswami-Sudan list size bound, there can be at most $L^+$ many $w$-configurations.
-Since there are at least $L^+\cdot C$ many ``good'' $\lambda$, we conclude again from the pigeon-hole principle that there is at least one $\alpha^+$-configuration, which we again denote by $(p_1,\ldots, p_w)$, for which there are at least $C$ many “good” $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
+Since there are at least $L^+\cdot C$ many ``good'' $\lambda$, we conclude again from the pigeon-hole principle that there is at least one $\alpha^+$-configuration, which we again denote by $(p_1,\ldots, p_w)$, for which there are at least $C$ many ``good'' $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
 By linear algebra (the Vandermonde matrix is invertible) we conclude that this configuration  satisfies
 \[
 s_i(X)\cdot P_i(X, p_1(X), \ldots, p_w(X), p_1(gX), \ldots, p_w(g X)) = 0 \bmod v_H(X)
@@ -1325,13 +1278,13 @@ This completes the proof.
 %f(x)= \sum_{j=1}^w f_j(x)\cdot Z^{j-1}
 %\] 
 %to a codeword from $RS_{k^+}[K,D]$ over the rational function field $K=F(Z)$, where $\alpha^+ > \sqrt{\rho^+}$. 
-%By the Guruswami-Sudan list decoding bound for Reed-Solomon codes (over countable fields , see Appendix \ref{}), there can exist at most $m_1\leq L^+$ , such “configurations”
+%By the Guruswami-Sudan list decoding bound for Reed-Solomon codes (over countable fields , see Appendix \ref{}), there can exist at most $m_1\leq L^+$ , such ``configurations''
 %\[ 
 %L_1 = \left\{ \left(p_1^{(i)}, \ldots, p_w^{(i)} \right) \in F[X]^w \: : \:  i=1,\ldots,m_1 \right\},
 %\]
 %each $p_j^{(i)}(X)$ of degree $\leq k^+ - 1$ which agree with $(f_1, \ldots, f_w)$ on a set of density $\geq \alpha^+$,  and moreover evaluate to the claimed values at a ``good'' $z$, $g\cdot z$, 
 %(We know from above that $m_1\geq 1$.)
-%By the same reasoning there exist  at most $m_2\leq L^+$, “configurations”
+%By the same reasoning there exist  at most $m_2\leq L^+$, ``configurations''
 %\[ 
 %L_2 = \left\{ \left(p_1^{(i)}, \ldots, p_w^{(i)}, h_{\lambda,0}^{(i)}, \ldots , h_{d-1}^{(i)} \right)\in F[X]^{w+d} \: : \:  i=1,\ldots ,m_2 \right\},
 %\]
@@ -1344,7 +1297,7 @@ This completes the proof.
 %}% 
 %Since there are  more than $L^+\cdot d\cdot (k^+ - 1)$ many good $z$, we conclude from the pigeon-hole principle that there is at least one configuration in $L_2$ for which the overall identity holds at more than $d\cdot (k^+-1)$ many $z$. 
 %By the degree of the overall identity, this configuration is a solution of the polynomial identity. 
-%As this holds for every good $\lambda$, and there are at least $L^+\cdot C$ many, we conclude again by the pigeon-hole principle that there is at least one configuration $(p_1^{(i)}, \ldots,p_w^{(i)})$ from $L_1$ for which there are $C$ many “good” $\lambda$ with an extending configuration from $L_2$ which solves the overall polynomial identity. 
+%As this holds for every good $\lambda$, and there are at least $L^+\cdot C$ many, we conclude again by the pigeon-hole principle that there is at least one configuration $(p_1^{(i)}, \ldots,p_w^{(i)})$ from $L_1$ for which there are $C$ many ``good'' $\lambda$ with an extending configuration from $L_2$ which solves the overall polynomial identity. 
 %By linear algebra we conclude that this configuration $(p_1^{(i)}, ...,p_w^{(i)})$ solves all $C$ identities of the AIR. 
 %This completes the proof.
 \end{proof}
@@ -1357,18 +1310,18 @@ The protocol design as well as its security analysis is much easier to understan
 We plan to elaborate on this in a separate document.
 
 
-\subsection{Extractability}
+\subsubsection{Extractability}
 
 We only provide a brief sketch how to build the extractor in the oracle model, given a prover $P^*$ which succeeds with a probability of that exceeds the soundness error bound from Theorem \ref{thm:DEEPsoundness}:
 \begin{enumerate}
 \item
-Sample a “good” first message $[f_1],\ldots , [f_w]$ on which the prover succeeds with a probability greater than the soundness error bound from Theorem \ref{thm:DEEPsoundness}.
+Sample a ``good'' first message $[f_1],\ldots , [f_w]$ on which the prover succeeds with a probability greater than the soundness error bound from Theorem \ref{thm:DEEPsoundness}.
 
 \item
-In this step we build a straight-line extractor from the “good” first message $[f_1],\ldots , [f_w]$ pbtained in Step (1):
+In this step we build a straight-line extractor from the ``good'' first message $[f_1],\ldots , [f_w]$ pbtained in Step (1):
 Read $f_1, \ldots ,f_w$ from the oracles. 
 By the proof of Theorem \ref{thm:DEEPsoundness}, $(f_1,\ldots ,f_w)$ agrees with an AIR solution $(p_1(X),\ldots ,p_w(X))\in F[X]^w$ on a set $A$ of density $\geq \alpha^+$. 
-To obtain this solution, one repeatedly applies the Guruswami-Sudan list decoder\footnotemark and   “intersects” their outputs as described in \cite{ethSTARK}, Section 5.5.
+To obtain this solution, one repeatedly applies the Guruswami-Sudan list decoder\footnotemark and   ``intersects'' their outputs as described in \cite{ethSTARK}, Section 5.5.
 One of the resulting configurations must be the one that satisfies the AIR.
 \footnotetext{%
 Alternatively one could run the  Guruswami-Sudan list decoder over $K=F(Z)$. 
@@ -1383,12 +1336,12 @@ To obtain strict polynomial running time, at the cost of having a success probab
 In this section we outline standard techniques to lower the DEEP-ALI soundness error for AIRs over small fields $F$. 
 (See \cite{ethSTARK}, or \cite{PolygonZero}.)
 
-\subsubsection{Using extension fields}
+\subsubsection*{Using extension fields}
 One simply draws queries (for example the DEEP queries and the FRI challenges) from a suitable large extension field $F_e$ of $F$.
 The soundness error bound lowers accordingly, replacing $|F|$ with $|F_e|$. 
 (Notice that the disadvantage of applying this approach to the entire protocol is that all FRI quotients have to be computed over $F_e$.)
  
-\subsubsection{Increasing the number of DEEP queries}
+\subsubsection*{Increasing the number of DEEP queries}
 Instead of drawing the DEEP query from an extension field, one may also take several DEEP queries $z_1,\ldots , z_N$ from $F\setminus D$, and apply FRI to the batch of all resulting quotients. 
 The corresponding $L^+\cdot\frac{d\cdot (k^+-1)+ (k -1)}{|F|\setminus (D\cup H)}$ term in the soundness error bound of Theorem \ref{thm:DEEPsoundness} is then lowered to  
 \[
@@ -1398,7 +1351,7 @@ instead.
 Notice that resampling of FRI challenges would increase the proof size exponentially in $N$. 
 Hence for  FRI, extension field sampling is preferable.  
 
-\section{Beyond the Johnson bound?}
+\subsection{Beyond the Johnson bound?}
 \label{s:RSConjecture}
 
 The conjectured soundness error for FRI alone (Conjecture \ref{con:FRIsoundness}) is not good enough to argue the security of DEEP-ALI beyond the Guruswami-Sudan list decoding bound. 
@@ -1430,7 +1383,8 @@ The ethSTARK documentation \cite{ethSTARK} takes a toy protocol as a representat
 
 \appendix
 \newpage
-\chapter{Appendix}
+
+\section{Appendix}
 \label{s:Appendix}
 
 In this section we recap well-known facts on decodability of Reed-Solomon codes\footnotemark, and describe the weighted variant of Theorem \ref{thm:CorrelatedAgreement}, which is used by the soundness analysis of FRI.
@@ -1452,7 +1406,7 @@ is polynomial in the blocklength $n$.
  is the open -ball around $f$, and $\delta$ is the fractional Hamming distance.)   
 As in the main part of the document, we throughout assume that both $n$ and $k$ are even.
 
-\section{Berlekamp-Welch decoder}
+\subsection{Berlekamp-Welch decoder}
 
 Assume that  $f\in K^D$ is at most $\theta_0$--close to $V$, with
 $\theta_0 = \frac{1-\rho}{2}$ being the unique decoding radius, 
@@ -1512,10 +1466,10 @@ Since $E(X)$ is non-trivial, we conclude divisibility.
 
 
 
-\section{List decoding}
+\subsection{List decoding}
 \label{s:ListDecoding}
 
-\subsection{The Sudan decoder}
+\subsubsection{The Sudan decoder}
 
 The Sudan list decoder \cite{Sudan} generalizes the Berlekamp-Welch procedure by searching for general bivariate polynomials $Q(X,Y)\in K[X,Y]$ which satisfy
 \[
@@ -1581,7 +1535,7 @@ If $K$ is infinite, then this might not be true in general.
 
 
 
-\subsection{The Guruswami-Sudan decoder}
+\subsubsection{The Guruswami-Sudan decoder}
 
 To extend the interpolation technique to the Johnson limit $1 - \sqrt{\rho}$, one takes into account that several close codewords might coincide at some points. 
 One therefore looks for polynomials $Q(X,Y)$ the $(1,d)$--degree of which is $m$ times as large as the targeted agreement set would suggest, and which have a zero of order $m$ at every interpolating point $(x,f(x))$, $x\in D$. 
@@ -1679,7 +1633,7 @@ If $K$ is finite, then the Guruswami-Sudan decoder runs in polynomial time.
 \end{thm}
 
 
-\section{Weighted correlated agreement}
+\subsection{Weighted correlated agreement}
 \label{s:WeigthedCorrelatedAgreement}
 
 %The soundness analysis of FRI uses a strengthening of the correlated agreement theorem, which allows to additionally keep track of the success probability for the FRI query phase by a sub-probability measure $\mu$. 
