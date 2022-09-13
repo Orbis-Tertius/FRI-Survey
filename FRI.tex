@@ -111,10 +111,12 @@
 \renewcommand{\adv}{\mathsf{Adv}}
 
 
-\author{
-    Hab{\"o}ck, Ulrich\thanks{This work is supported by Horizenlabs Italia and Orbis Labs.}
+\author{%
+Ulrich Hab{\"o}ck\thanks{This work is supported by Horizenlabs Italia and Orbis Labs.}
+\\\\
+Orbis Labs
 \\
-    \texttt{team@orbislabs.com}
+\texttt{team@orbislabs.com}
 }
 
 \begin{document}
@@ -126,7 +128,7 @@ A summary on the FRI low degree test
 %
 }
 \date{%
-September 12, 2022
+\today
 }
 \maketitle
 
@@ -172,7 +174,7 @@ In applications the agreement set is chosen large enough to infer global propert
 It is exactly this inference principle which makes FRI applicable to proving algebraic relations between a set of low-degree polynomials, might it be circuit satisfiability or the evaluation identities for building a polynomial commitment scheme.
 
 
-We stress that fact that this summary does not present any novelties.
+\textit{We stress that fact that this summary does not present any novelties.}
 Instead it is an outcome of my learnings when reading the papers \cite{ProximityGaps}, \cite{DEEPFRI}, \cite{FRI}, \cite{Redshift} and \cite{ethSTARK}. 
 The document provides an overview of FRI and its soundness analysis, including some background on decoding Reed-Solomon codes.
 It discusses the DEEP method and how it is related to polynomial commitment schemes and we sketch the more general notion of list polynomial commitment schemes \cite{Redshift}. 
