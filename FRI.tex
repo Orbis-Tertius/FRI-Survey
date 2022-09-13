@@ -112,7 +112,7 @@
 
 
 \author{
-    Hab{\"o}ck, Ulrich\thanks{This work is supported by Orbis Labs and Horizenlabs Italia.}
+    Hab{\"o}ck, Ulrich\thanks{This work is supported by Horizenlabs Italia and Orbis Labs.}
 \\
     \texttt{team@orbislabs.com}
 }
@@ -209,7 +209,7 @@ the Reed-Solomon code of rate $\rho = \frac{k}{n}$ over the domain of definition
 Whenever we say that a polynomial $p(X)$ belongs to $\RS_k[F,D]$, we mean that its domain evaluation $p(x)|_{x\in D}$ is a code word. 
 
 In the context of oracle proofs, we denote oracles for  functions $f\in F^D$ by
-$\big[ f \big]$, and occasionally call them \textit{domain evaluation oracles} to distinguish from the oracle notion of polynomial IOPs \cite{DARK}, which models an ideal polynomial commitment scheme.
+$\big[ f \big]$, and occasionally call them \textit{domain evaluation oracles} to distinguish from the oracle notion of univariate polynomial IOPs \cite{DARK}, which models an ideal polynomial commitment scheme.
 In order to a closer alignment with the compiled protocol in the random oracle model, we prefer to say that a party $P$ (the prover) ``sends'' $[f]$ to another party $V$ (the verifier), meaning that $P$ sets
 up the oracle for $f$ and $V$ obtains oracle access for it.
 
@@ -217,7 +217,7 @@ up the oracle for $f$ and $V$ obtains oracle access for it.
 \section{Correlated agreement}
 
 As in polynomial IOPs, building random linear combinations is the core reduction argument in FRI . 
-While the soundness of it is easily proven for polynomial IOPs, this is not the case for domain evaluations. 
+While the soundness of it is easily proven in the polynomial model, this is not the case for domain evaluations. 
 Even in the most elementary case, proving that if with noticeable probability a random linear combination  of two  given functions $f_0$, $f_1$ is $\theta$-close to a Reed-Solomon codeword, i.e.
 \[
 \delta\big(f_0 + \lambda\cdot f_1, \RS_k[F,D]\big) \leq \theta,
@@ -1007,7 +1007,7 @@ h(X)=h_0(X)+X^{|\Omega|}\cdot h_1(X)+ \ldots +X^{(d-1)\cdot |\Omega|}\cdot  h_{d
 one can even use a sampling domain the size of which is not determined by the degree of $h(X)$. 
 (We use a different decomposition as in \cite{DEEPFRI, ethSTARK}, which does not imply any further constraints on the sampling space for $z$.)
 
-In the unique decoding regime, the DEEP-ALI approach is equivalent to a polynomial IOP using FRI as a polynomial commitment scheme as described in Chapter \ref{ch:Polycommit}. 
+In the unique decoding regime, the DEEP-ALI approach is equivalent to a (univariate) polynomial IOP using FRI as a polynomial commitment scheme as described in Chapter \ref{ch:Polycommit}. 
 %Its soundness analysis is as for any polynomial IOP.  
 For larger proximity parameters, one can generalize the polynomial oracle model to list polynomial commitment schemes as done in \cite{Redshift}, but their approach does not yield soundness bounds which are as tight as given by the correlated agreement theorem. 
 In order not to introduce yet another oracle model which reflects this specific correlated agreement property of batched FRI, we directly show how to apply the DEEP method to proving satisfiability of an algebraic intermediate representation.
@@ -1296,10 +1296,10 @@ This completes the proof.
 %This completes the proof.
 \end{proof}
 
-We note that in Equation \eqref{e:SoundnessDEEPALI}, the term in the brackets is exactly the soundness error bound of the protocol in the polynomial IOP model \cite{DARK}.
+We note that in Equation \eqref{e:SoundnessDEEPALI}, the term in the brackets is exactly the soundness error bound of the protocol in the (univariate) polynomial IOP model \cite{DARK}.
 As soundness in this model is essentially based on the Schwartz-Zippel lemma, we believe that the blow-up by the factor $L^+$ holds in general for every (public coin) polynomial IOP when replacing polynomial oracles by domain-evaluation oracles. 
 (At least for the polynomial IOPs we know, such as \cite{Plonk, Sonic, Marlin} or \cite{Darlin}, this is the case.)
-Such a general transformation of polynomial IOPs into ordinary (i.e. domain-evaluation) IOPs would be of interest, as the polynomial IOP model is widely used by practicioners.   
+Such a general transformation of (univariate) polynomial IOPs into ordinary (i.e. domain-evaluation) IOPs would be of interest, as the polynomial IOP model is widely used by practicioners.   
 The protocol design as well as its security analysis is much easier to understand in the polynomial oracle model, and their soundness error bounds could be easily taken over.
 We plan to elaborate on this in a separate document.
 
@@ -1336,17 +1336,18 @@ The soundness error bound lowers accordingly, replacing $|F|$ with $|F_e|$.
 (Notice that the disadvantage of applying this approach to the entire protocol is that all FRI quotients have to be computed over $F_e$.)
  
 \subsubsection{Increasing the number of protocol challenges}
-Instead of drawing the DEEP query from an extension field, one may also take several DEEP queries $z_1,\ldots , z_{N_z}$ from $F\setminus D$, and apply FRI to the batch of all resulting quotients. 
-The corresponding $L^+\cdot\frac{d\cdot (k^+-1)+ (k -1)}{|F|\setminus (D\cup H)}$ term in the soundness error bound of Theorem \ref{thm:DEEPsoundness} is then lowered to  
+Instead of drawing protocol challenges from an extension field, one may repeatedly sample a challenge and run the remaining protocol for them in parallel. 
+For instance, the first verifier challenge $\lambda$ can be sampled $N_1$ times, $\lambda_1,\ldots, \lambda_{N_1}\sample F$, and prove the overall polynomial identity \eqref{e:OverallIdentityAIR} for all of these cases.
+This yields a lowered soundness error bound of the first round,
 \[
-\varepsilon_2 = \left(L^+\cdot\frac{d\cdot (k^+ - 1) + (k - 1)}{|F\setminus (D\cup H)|}\right)^{N_z}
+\varepsilon_1 = \left(L^+\cdot\frac{C}{|F|}\right)^{N_\lambda},
 \]
-instead. 
-Likewise, the first verifier challenge $\lambda$ can be sampled $N_\lambda$ times, yielding a lowered soundness error of the first round,
+and increases only the number of $h_{\lambda,j}$ polynomials  (by the factor $N_\lambda$) that are subject to the DEEP queries in the second round.
+Likewise, one may also take several DEEP queries $z_1,\ldots , z_{N_z}$ from $F\setminus D$, and apply FRI to the batch of all resulting quotients, lowering the soundness error bound of the second round to
 \[
-\varepsilon_1 = \left(L^+\cdot\frac{C}{|F|}\right)^{N_\lambda}.
-\]
-Note that this increases only the number of segment polynomials of $h_\lambda(X)$ in the batch for FRI (by the factor $N_\lambda$).
+\varepsilon_2 = \left(L^+\cdot\frac{d\cdot (k^+ - 1) + (k - 1)}{|F\setminus (D\cup H)|}\right)^{N_z}.
+\] 
+However, this comes at the cost of increasing the entire batch for FRI by the factor $N_z$ (which might be acceptable in some applications, though).
 On the contrary, resampling of FRI challenges would increase the proof size too much. 
 Hence for  FRI extension field sampling is preferable.  
 
