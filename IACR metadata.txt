@@ -8,4 +8,4 @@ orcid id: 0000-0003-0467-9260
 Abstract:
 This document is an informal summary on the FRI low degree test and DEEP algebraic linking, following the well-known line of work of Ben-Sasson, et al.   
 Based on its most recent soundness analysis, we discuss parameter settings for practical security levels, how FRI is turned into a polynomial commitment scheme, and the soundness of DEEP sampling in the list decoding regime.
-In particular, we illustrate the DEEP method applied to proving satisifiability of algebraic intermediate representations and prove a soundness error bound which slightly improves the one in the ethSTARK documentation (IACR eprint 2019/582).
+In particular, we illustrate the DEEP method applied to proving satisfiability of algebraic intermediate representations and prove a soundness error bound which slightly improves the one in the ethSTARK documentation (IACR eprint 2019/582).
