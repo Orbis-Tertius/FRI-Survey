@@ -1223,17 +1223,25 @@ have correlated agreement on a set of density $\geq \alpha^+$ with some  element
 %\] 
 where each component polynomial is of degree $\leq |H| - 1 + 2 = k^+ -1$, and satisfies the evaluation claim.
 
-In what follows we shall call each element from  $F[X]^{l}$, with component polynomials of degree $\leq k^+ - 1$, having correlated agreement with a vector of functions on a set of density $\geq \alpha^+$, an \textit{$\alpha^+$-configuration} for that vector of functions. 
+In what follows we shall call an element $(P_0(X),\ldots, P_{l-1}(X))$ from  $F[X]^{l}$, with component polynomials of degree $\leq k^+ - 1$, having correlated agreement with a vector of functions $(\phi_0(x),\ldots, \phi_{l-1}(x))$ on a set of density $\geq \alpha^+$, an \textit{$\alpha^+$-configuration} for that vector of functions. 
+Another way to express this, is that 
+\[
+P(X) = \sum_{i=0}^{l-1} P_i(X)\cdot Z^{i},
+\]
+belonging to the Reed-Solomon code $\RS_{k^+}[K,D]$ over the rational function field $K=F(Z)$ is $(1-\alpha^+)$-close to the $K$-valued function $\phi(x) =\sum_{i=0}^{l-1} \phi_i(X)\cdot Z^{i}$.
+Note that since $\alpha^+ > \sqrt{\rho^+}$, the Guruswami-Sudan list size bound (over general fields, see Appendix \ref{s:ListDecoding}) is applicable to $\RS_{k^+}[K,D]$. 
+In particular,  there are at most 
+\[
+L^+ \leq \sqrt{\frac{m\cdot (m+1)}{\rho}} \leq \frac{m+\frac{1}{2}}{\sqrt{\rho^+}}
+\]
+$\alpha^+$-configurations for $(\phi_0(x),\ldots, \phi_{l-1}(x))$.
 
 Let us keep a combination of ``good'' first and second messages  $(f_1,\ldots,f_w)$, $(h_{\lambda,0},\ldots,h_{\lambda,d-1})$ fixed.
 We have seen above that the existence of a single ``good'' $z$ implies the existence of an $\alpha^+$-configuration for $(f_1, \ldots, f_w, h_{\lambda,0}, \ldots$, $h_{\lambda,d-1})$.
 %In particular each function in the two messages is $(1-\alpha^+)$-close to a word from $\RS_{k^+}[F,D]$ . 
 %(For now, we ignore the evaluation property of these polynomials.)
 %
-By the Guruswami-Sudan list size bound\footnotemark (see Appendix \ref{s:ListDecoding}) there are at most $ L^+$  such $\alpha^+$-configurations.
-\footnotetext{%
-By correlated agreement each of the component functions is $(1-\alpha^+)$-close to $\RS_{k^+}[F,D]$.
-}
+By the Guruswami-Sudan list size bound for $\RS_{k^+}(K,D)$  (see Appendix \ref{s:ListDecoding}) there are at most $ L^+$  such $\alpha^+$-configurations.
 %Note that each ``$j$-configuration'' must extend\footnotemark one of the ``$i$-configurations'' (but not necessarily each ``$i$-configuration'' has an extending ``$j$-configuration'').
 %\footnotetext{%
 %We say that ``$j$-configuration'' extends an ``$i$-configuration'' if the first $w$ polynomials coincide.
@@ -1256,7 +1264,7 @@ By the degree of the identity, this configuration is a solution of it, hence $(p
 
 Now let us keep a ``good'' first message $(f_1,\ldots, f_w)$ fixed.
 We have seen that for each ``good'' $\lambda$ there exists an \textit{$\alpha^+$-configuration} for $(f_1,\ldots, f_w)$ which  is a solution of \eqref{e:OverallIdentityAIRmodH}.
-Again, by the Guruswami-Sudan list size bound, there can be at most $L^+$ many $w$-configurations.
+Again, by the Guruswami-Sudan list size bound for $\RS_{k^+}[K,D]$, there can be at most $L^+$ many $w$-configurations.
 Since there are at least $L^+\cdot C$ many ``good'' $\lambda$, we conclude again from the pigeon-hole principle that there is at least one $\alpha^+$-configuration, which we again denote by $(p_1,\ldots, p_w)$, for which there are at least $C$ many ``good'' $\lambda$ for which \eqref{e:OverallIdentityAIRmodH} holds.
 By linear algebra (the Vandermonde matrix is invertible) we conclude that this configuration  satisfies
 \[
