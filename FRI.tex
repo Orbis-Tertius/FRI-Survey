@@ -562,22 +562,29 @@ Using $m$ from the first step, we determine the number $s$ of query rounds via
 \]
 \end{enumerate}
 
+
+The following examples consider a situation is similar to the one in plonky2 \cite{PolygonZero}. 
+We take extensions $F$ of a base field of size $|F_b|=2^{64}$, and sampling domain sizes $|D_0|=2^{12}\cdot\rho^{-1}$, where we vary the blow-up factors $\rho^{-1}$ to the maximum possible for the given security level.    
+The number of polynomials is taken as $L= 300$, and we assume that these are grouped into 
+\[
+\{100,100,100\} 
+\]
+polynomials, each group committed by a single tree using Merkle caps.
+The height for the Merkle caps is chosen to minimize the proof size.
+For each blow-up factor we compute the proof size (assuming a hash size of $256$ bits), and as a very coarse measure for the prover complexity the number hashes\footnotemark it needs to compute. 
+\footnotetext{%
+Each call of the hash processes another $r=256$ bits. 
+}
+
 \subsubsection{66 bits of security}
+
 
 Such a configuration might be still interesting in practice, as its security can be increased by \textit{grinding} (see \cite{ethSTARK}): 
 Another $14$ bits proof of work bound to the proof generation, and one obtains overall  $80$ bits of security. 
 
-For example, let $|F|=2^{64}$, $|D_0|=2^{12}\cdot\rho^{-1}$, $L\approx 300$, and we assume that the polynomials are grouped into 
-\[
-\{100,100,100\} 
-\]
-polynomials, each committed by a single tree using Merkle caps. 
-This situation is similar to the one in plonky2 \cite{plonky2}. 
-The field is definitely too small to achieve reasonable security, hence one works with field extensions. 
-
 \begin{itemize}
 \item
-With a degree $2$ extension of $F$, hence a field size of $128$ bits, the best security level one can obtain for $\rho=2^{-5}$ is about $74$ bits. 
+With a degree $2$ extension of $F_b$, hence a field size of $128$ bits, the best security level one can obtain for $\rho=2^{-5}$ is about $74$ bits. 
 The commit phase error is 
 \[
 \varepsilon_C\approx 2^{-66.62},
@@ -591,19 +598,19 @@ With a reduction strategy $\{a_1,a_2\}=\{2^4,2^3\}$ we obtain proof sizes of abo
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-$-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ / kB
+$-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ in bytes
 \\\hline\hline
-$3$ 	& $6$	& $48$	& $17,408$ H 	& $164$ kB
+$3$ 	& $6$	& $48$	& $17.4$ k 	& $163.6$ k
 \\
-$4$ & $4$	& $37$	& $34,816$ H & $130$ kB
+$4$ & $4$	& $37$	& $34.8$ k & $129.5$ k
 \\
-$5$ & $3$	& $29$	& $69,632$ H 	& $104$ kB
+$5$ & $3$	& $29$	& $69.6$ k 	& $104$ k
 \\\hline
 \end{tabular}
 \end{center}
 
 \item
-With a degree $3$ extension of $F$, hence a field size of $192$ bits, one can choose higher blow-up factors. 
+With a degree $3$ extension of $F_b$, hence a field size of $192$ bits, one can choose higher blow-up factors. 
 For  $\rho =2^{-6}$ we obtain $66$ bits security by  
 \[
 \varepsilon_C\approx 2^{-66.00},
@@ -618,13 +625,13 @@ However, this comes at the cost of about tripling the prover cost.
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-$-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ / kB
+$-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ in bytes
 \\\hline\hline
-$6$ 	& $1,487$	& $23$	& $208,896$ H 	& $89$ kB
+$6$ 	& $1,487$	& $23$	& $209$ k 	& $89.1$ k
 \\
-$8$ & $743$	& $17$	& $835,584$ H & $68.4$ kB
+$8$ & $743$	& $17$	& $836$ k & $68.4$ k
 \\
-$10$ & $371$	& $14$	& $3,342,336$ H 	& $58.4$ kB
+$10$ & $371$	& $14$	& $3,342$ k 	& $58.4$ k
 \\\hline
 \end{tabular}
 \end{center}
@@ -635,17 +642,17 @@ $10$ & $371$	& $14$	& $3,342,336$ H 	& $58.4$ kB
 \subsubsection{112 bits security}
 
 As in the previous setting, we discuss this level of security as it can be improved by grinding, typically up to $128$ bits. 
-All configurations use degree $3$ extensions of $F$.
+All configurations use degree $3$ extensions of $F_b$.
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-$-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ / kB
+$-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ in bytes
 \\\hline\hline
-$6$ 	& $15$	& $38$	& $208,896$ H 	& $145$ kB
+$6$ 	& $15$	& $38$	& $209$ k 	& $145$ k
 \\
-$8$ & $7$	& $29$	& $835,584$ H & $115.7$ kB
+$8$ & $7$	& $29$	& $836$ k & $115$ k
 \\
-$10$ & $3$	& $24$	& $3,342,336$ H 	& $99$ kB
+$10$ & $3$	& $24$	& $3,342$ k 	& $99$ k
 \\\hline
 \end{tabular}
 \end{center}
@@ -657,18 +664,18 @@ The proof size decreases down to $88.2$ kB, at the prover cost of $6,684,672$ ha
 \subsubsection{128 bits security}
 
 These configurations do not use grinding, and hence have quite large proof sizes.
-Again, we use degree $3$ extensions of $F$.
+Again, we use degree $3$ extensions of $F_b$.
 
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-$-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ / kB
+$-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ in bytes
 \\\hline\hline
-$3$ 	& $8$	& $91$	& $26,112$ H 	& $326.0$ kB
+$3$ 	& $8$	& $91$	& $26$ k 	& $322$ k
 \\
-$4$ & $5$	& $69$	& $52,224$ H & $252.7$ kB
+$4$ & $5$	& $69$	& $52$ k & $250$ k
 \\
-$5$ & $4$	& $55$	& $104,448$ H  &  $205.2$ kB
+$5$ & $4$	& $55$	& $104$ k  &  $204$ k
 \\\hline
 \end{tabular}
 \end{center}
