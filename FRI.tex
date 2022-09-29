@@ -112,7 +112,7 @@
 
 
 \author{%
-Ulrich Hab{\"o}ck\thanks{This work is supported by Horizenlabs Italia and Orbis Labs.}
+Ulrich Hab{\"o}ck\thanks{This work is supported by Horizenlabs, Inc.,  and Orbis Labs.}
 \\\\
 Orbis Labs
 \\
@@ -129,7 +129,8 @@ A summary on the FRI low degree test
 }
 \date{%
 \today\footnote{%
-This updated version of the summary clarifies the usage of the Guruswami-Sudan list size bound over the rational function field  in the proof of Theorem \ref{thm:DEEPsoundness}.
+This updated version of the summary corrects a minor error in citing the soundness error formula for FRI, Theorem \ref{thm:BatchedFRISoundness}.
+Furthermore, the concrete security parameters are now changed to the case of algebraic batching .
 }
 }
 \maketitle
@@ -505,13 +506,13 @@ Suppose that $q_i\in F^D$, $i=0,\ldots,L-1$, is a batch of functions given by th
 \label{e:EpsilonFRI}
 \begin{aligned} 
 \varepsilon = \left(L-\frac{1}{2}\right) \cdot \frac {\left(m+ \frac{1}{2}\right)^7}{2\cdot\sqrt\rho^3}\cdot \frac{|D_0|^2}{|F|} 
-+ \frac{(2m+1)\cdot (|D_0|+1)\cdot \sum_{i=1}^{r} a_i}{|F|} \quad\quad
++ \frac{(2m+1)\cdot (|D_0|+1)\cdot \sum_{i=1}^{r} a_i}{\sqrt{\rho}\cdot |F|} \quad\quad
 \\
 +(1-\theta)^s ,
 \end{aligned}
 \end{equation}
  then the functions $q_i\in F^D$, $i=0,\ldots,L-1$, have correlated agreement with $RS_k[D,F]$ on a set of density of at least $\alpha >\left(1+\frac{1}{2m}\right)\cdot \sqrt\rho$.
-(We notice that, using affine batching then $L-\frac{1}{2}$ is replaced by $\frac{3}{2}$, see \cite{ProximityGaps}.)
+(We notice that, using affine batching then $L-\frac{1}{2}$ is replaced by $\frac{3}{2}$, see \cite{ProximityGaps}. )
 \end{thm}
 
 %For proximity parameters below 
@@ -519,7 +520,7 @@ Suppose that $q_i\in F^D$, $i=0,\ldots,L-1$, is a batch of functions given by th
 The first two terms in \eqref{e:EpsilonFRI},
 \[
 \varepsilon_C= \left(L-\frac{1}{2}\right) \cdot \frac {\left(m+ \frac{1}{2}\right)^7}{2\cdot\sqrt\rho^3}\cdot \frac{|D_0|^2}{|F|} 
-+ \frac{(2m+1)\cdot (|D_0|+1)\cdot \sum_{i=1}^{r} a_i}{|F|},
++ \frac{(2m+1)\cdot (|D_0|+1)\cdot \sum_{i=1}^{r} a_i}{\sqrt{\rho}\cdot |F|},
 \] 
 correspond to soundness error of the commit phase, reflecting the systematic error estimated by the correlated agreement theorem and collected over the batching step and the reduction rounds.
 In words, 
@@ -561,17 +562,17 @@ Using $m$ from the first step, we determine the number $s$ of query rounds via
 \]
 \end{enumerate}
 
-\subsubsection{74 bits of security}
+\subsubsection{66 bits of security}
 
-Such a configuration is interesting in practice, as its security can be increased by \textit{grinding} (see \cite{ethSTARK}): 
-Another $16$ bits proof of work bound to the proof generation, and one obtains overall  $90$ bits of security. 
+Such a configuration might be still interesting in practice, as its security can be increased by \textit{grinding} (see \cite{ethSTARK}): 
+Another $14$ bits proof of work bound to the proof generation, and one obtains overall  $80$ bits of security. 
 
 For example, let $|F|=2^{64}$, $|D_0|=2^{12}\cdot\rho^{-1}$, $L\approx 300$, and we assume that the polynomials are grouped into 
 \[
 \{100,100,100\} 
 \]
 polynomials, each committed by a single tree using Merkle caps. 
-This situation is similar to the one in plonky2. 
+This situation is similar to the one in plonky2 \cite{plonky2}. 
 The field is definitely too small to achieve reasonable security, hence one works with field extensions. 
 
 \begin{itemize}
@@ -579,51 +580,51 @@ The field is definitely too small to achieve reasonable security, hence one work
 With a degree $2$ extension of $F$, hence a field size of $128$ bits, the best security level one can obtain for $\rho=2^{-5}$ is about $74$ bits. 
 The commit phase error is 
 \[
-\varepsilon_C\approx 2^{-74.84},
+\varepsilon_C\approx 2^{-66.62},
 \]
 with Johnson proximity $m=3$. 
-To have about the same soundness error in the query phase, we demand $s=33$ samples, yielding 
+To have about the same soundness error in the query phase, we demand $s=29$ samples, yielding 
 \[
-\varepsilon_Q \approx 2^{-75.16}.
+\varepsilon_Q \approx 2^{-66.05}.
 \] 
-With a reduction strategy $\{a_1,a_2\}=\{2^4,2^3\}$ we obtain proof sizes of about $118$ kB. 
+With a reduction strategy $\{a_1,a_2\}=\{2^4,2^3\}$ we obtain proof sizes of about $104$ kB. 
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 $-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ / kB
 \\\hline\hline
-$3$ 	& $7$	& $51$	& $17,408$ H 	& $174$ kB
+$3$ 	& $6$	& $48$	& $17,408$ H 	& $164$ kB
 \\
-$4$ & $6$	& $39$	& $34,800$ H & $136$ kB
+$4$ & $4$	& $37$	& $34,816$ H & $130$ kB
 \\
-$5$ & $3$	& $33$	& $69,632$ H 	& $118$ kB
+$5$ & $3$	& $29$	& $69,632$ H 	& $104$ kB
 \\\hline
 \end{tabular}
 \end{center}
 
 \item
 With a degree $3$ extension of $F$, hence a field size of $192$ bits, one can choose higher blow-up factors. 
-For  $\rho =2^{-6}$ we obtain $74$ bits security by  
+For  $\rho =2^{-6}$ we obtain $66$ bits security by  
 \[
-\varepsilon_C\approx 2^{-74.00},
+\varepsilon_C\approx 2^{-66.00},
 \]
-where the Johnson proximity is $m=1,521$. 
-To have about the same soundness error in the query phase, we need only $s=25$ samples, yielding 
+where the Johnson proximity is $m=1,487$. 
+To have about the same soundness error in the query phase, we need only $s=23$ samples, yielding 
 \[
-\varepsilon_Q\approx 2^{-74.98}.
+\varepsilon_Q\approx 2^{-68.99}.
 \]
-With the same reduction strategy as before, we reduce the proof size down to $97$ kB. 
+With the same reduction strategy as before, we reduce the proof size down to $89$ kB. 
 However, this comes at the cost of about tripling the prover cost. 
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 $-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ / kB
 \\\hline\hline
-$6$ 	& $1,521$	& $25$	& $208,896$ H 	& $97$ kB
+$6$ 	& $1,487$	& $23$	& $208,896$ H 	& $89$ kB
 \\
-$8$ & $760$	& $19$	& $835,584$ H & $76.4$ kB
+$8$ & $743$	& $17$	& $835,584$ H & $68.4$ kB
 \\
-$10$ & $379$	& $15$	& $3,342,336$ H 	& $62.5$ kB
+$10$ & $371$	& $14$	& $3,342,336$ H 	& $58.4$ kB
 \\\hline
 \end{tabular}
 \end{center}
@@ -640,29 +641,34 @@ All configurations use degree $3$ extensions of $F$.
 \hline
 $-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ / kB
 \\\hline\hline
-$6$ 	& $34$	& $25$	& $208,896$ H 	& $145$ kB
+$6$ 	& $15$	& $38$	& $208,896$ H 	& $145$ kB
 \\
-$8$ & $17$	& $19$	& $835,584$ H & $115.4$ kB
+$8$ & $7$	& $29$	& $835,584$ H & $115.7$ kB
 \\
-$10$ & $379$	& $15$	& $3,342,336$ H 	& $95$ kB
+$10$ & $3$	& $24$	& $3,342,336$ H 	& $99$ kB
 \\\hline
 \end{tabular}
 \end{center}
+For higher blow-up factors, one needs to increase grinding. 
+For example, for $-\log_2(\rho) = 11$ the best level of security that can be obtained with degree $3$ extensions is $109$ bits, leaving  $19$ bits for grinding. 
+The proof size decreases down to $88.2$ kB, at the prover cost of $6,684,672$ hashes.  
+
 
 \subsubsection{128 bits security}
-These configurations do not use grinding. 
-Again, they use degree $3$ extensions of $F$.
+
+These configurations do not use grinding, and hence have quite large proof sizes.
+Again, we use degree $3$ extensions of $F$.
 
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 $-\log_2(\rho)$ & $m$	& $s$	& $T$ in hashes 	& $|\pi|$ / kB
 \\\hline\hline
-$6$ 	& $6$	& $45$	& $208,896$ H 	& $171$ kB
+$3$ 	& $8$	& $91$	& $26,112$ H 	& $326.0$ kB
 \\
-$8$ & $17$	& $19$	& $835,584$ H & $135.4$ kB
+$4$ & $5$	& $69$	& $52,224$ H & $252.7$ kB
 \\
-$10$ & --	& --	& --  	&  --
+$5$ & $4$	& $55$	& $104,448$ H  &  $205.2$ kB
 \\\hline
 \end{tabular}
 \end{center}
