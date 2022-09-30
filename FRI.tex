@@ -512,9 +512,11 @@ Suppose that $q_i\in F^D$, $i=0,\ldots,L-1$, is a batch of functions given by th
 \end{aligned}
 \end{equation}
  then the functions $q_i\in F^D$, $i=0,\ldots,L-1$, have correlated agreement with $RS_k[D,F]$ on a set of density of at least $\alpha >\left(1+\frac{1}{2m}\right)\cdot \sqrt\rho$.
-(We notice that, using affine batching then $L-\frac{1}{2}$ is replaced by $\frac{3}{2}$, see \cite{ProximityGaps}. )
 \end{thm}
-
+\begin{rem}
+The case of linear batching of two functions $q_0$, $q_1$ corresponds to the case $L=2$, in which $L-\frac{1}{2}=\frac{3}{2}$. 
+The same is true for affine batching of several functions, its soundness error is obtained from \eqref{e:EpsilonFRI} by replacing $L-\frac{1}{2}$ by $\frac{3}{2}$, see \cite{ProximityGaps}.
+\end{rem}
 %For proximity parameters below 
 
 The first two terms in \eqref{e:EpsilonFRI},
