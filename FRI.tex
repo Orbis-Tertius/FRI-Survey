@@ -129,7 +129,7 @@ A summary on the FRI low degree test
 }
 \date{%
 \today\footnote{%
-This updated version of the summary corrects a minor error in citing the soundness error formula for FRI, Theorem \ref{thm:BatchedFRISoundness}.
+This updated version of the summary corrects a typo in the soundness error formula of Theorem \ref{thm:BatchedFRISoundness}.
 Furthermore, the concrete security parameters are now changed to the case of algebraic batching .
 }
 }
@@ -499,7 +499,10 @@ Each $x_0\sample D_0=D$ from the query phase of FRI is used to additionally chec
 The soundness analysis of FRI is based on a strengthening of the correlated agreement theorem, which allows to additionally keep track of the success probability for the FRI query phase by a sub-probability measure $\mu$.
 We state that \textit{weighted correlated agreement theorem} in Appendix \ref{s:WeigthedCorrelatedAgreement}.
 %For brevity we skip the explicit formulation of that weighted correlated agreement theorem, and refer to the full version of \cite{ProximityGaps}, Section 7.
-For proximity parameters close to the Johnson bound, the soundness error of the batched FRI oracle proof is as follows:
+For proximity parameters close to the Johnson bound, the soundness error of the batched FRI oracle proof is as follows\footnotemark:
+\footnotetext{%
+We would like to thank Paul Gafni for pointing out a typo in formula \eqref{e:EpsilonFRI} in a previous version of the document.
+}
 
 \begin{thm}[Batched FRI soundness error, full version of \cite{ProximityGaps}, Theorem 8.3]
 \label{thm:BatchedFRISoundness}
@@ -568,7 +571,11 @@ Using $m$ from the first step, we determine the number $s$ of query rounds via
 \end{enumerate}
 
 
-The following examples consider a situation is similar to the one in plonky2 \cite{PolygonZero}. 
+The following examples\footnotemark consider a situation is similar to the one in plonky2 \cite{PolygonZero}.
+\footnotetext{%
+In a previous version of the document the example parameters where based on linear batching of FRI. 
+The current ones consider algebraic batching.
+} 
 We take extensions $F$ of a base field of size $|F_b|=2^{64}$, and sampling domain sizes $|D_0|=2^{12}\cdot\rho^{-1}$, where we vary the blow-up factors $\rho^{-1}$ to the maximum possible for the given security level.    
 The number of polynomials is taken as $L= 300$, and we assume that these are grouped into 
 \[
