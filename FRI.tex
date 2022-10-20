@@ -406,30 +406,38 @@ This equation will be used to check consistency between the provided oracles.
 
 In some situations it is more efficient to compute the values of $p_i(y)$ over $D_i$ directly from the ones of $p_{i-1}(x)$, $x\in D_{i-1}$, using \eqref{e:FRIconsistency}. 
 In terms of field additions $\mathsf A$, multiplications $\mathsf M$,  and FFT operations $\FFT(a_i)$ of size $a_i$, 
-the cost of this would be
-% One coset FFT of size n costs one FFT(n) and a subsequent shift 
-%  FFT(n) + (2n-3) M
-% since a shift costs (n-2) M for the powers, and (n-1)*M to scale the coefficient vector of the polynomial.
-% The fiber formula is computed by |D_i| many coset FFT of size a_i, whereas lambda_i is integrated in the shift (hence only one 
-% times scaling), and the resulting vector is added up. 
+this can be done\footnotemark in
+\footnotetext{%
+Using batch inversion to compute $\frac{\lambda_i}{x}$ over $D_i$ costs $2\cdot |D_i|\:\mathsf M$, computing the fiber FFT's costs $|D_i|\cdot a_i\cdot \log(a_i) \cdot (\mathsf M +\mathsf A)$, and evaluating them another $|D_i|\cdot (a_i - 1)\cdot (\mathsf M + \mathsf A)$.
+}% 
+% Computing \lambda_i / x for every x in |D_i| costs
+%	2 * |D_i| M,
+% using batch inversion. Computing the FFT's for each fiber costs
+%    |D_i| * a_i * log(a_i) (M + A),
+% and evaluating at \lambda_i/x costs another
+%  |D_i| *  (a_i - 1) * (M + A),
+% using the Horner scheme. This leads to overall
+% |D_i| * ( 1 + a_i + a_i*log a_i) M + |D_i| * ( -1 + a_i + a_i*log a_i) A.  
 \[
-|D_i|\cdot \big((a_i-1) \;\mathsf A + (2 a_i - 3)\;\mathsf{M}  + \FFT(a_i)\big)\approx |D_i|\cdot a_i\cdot (2 + \log_2(a_i))\: \mathsf{M},
+|D_i|\cdot \big((a_i + 1 + a_i\cdot\log a_i)\:\mathsf M +  (a_i - 1 + a_i\cdot\log a_i)\:\mathsf A\big)\approx |D_i|\cdot (a_i + 1 + a_i\cdot\log a_i)\:\mathsf M,
 \]
 compared to 
 % Taking the random linear combination of the coefficient vectors costs
-% a_i * k_i (multiplications + additions),
+% a_i * k_i = a_i * |D_i| (multiplications + additions),
 % the domain evaluation costs a single FFT(D_i), assuming no coset here.
 \[
 a_i \cdot k_i \; (\mathsf M + \mathsf A) + 
-\FFT(|D_i|) \approx |D_i|\cdot (1 + \log_2 |D_i|) \:\textsf M
+\FFT(|D_i|) \approx |D_i|\cdot (a_i + \log_2 |D_i|) \:\textsf M
 \] 
 when computing the domain evaluation of the random linear combination $p_i(X)$.
 Hence using equation \eqref{e:FRIconsistency} is more efficient whenever
 \begin{equation}
-a_i\cdot (2 + \log_2(a_i)) < 1 + \log_2 |D_i|,
+1 + a_i\cdot \log_2(a_i) < \log_2 |D_i|,
 \end{equation}
-which holds for most domain sizes when $a_i=2$. 
-Already the closest larger choice $a_i = 2^2$ leads to $|D_i|>2^{15}$, and hence no improvement in computations.
+which holds for most reduction steps  when $a_i=2$. 
+For $a_i = 2^2$ and $a_i = 2^3$ we already obtain $|D_i|>2^{9}$ and $|D_i| > 2^{25}$, respectively.   
+However, it should be noticed that these counts do not take into account that equation \eqref{e:FRIconsistency} is better parallelizable than the FFT approach. 
+
  
 \subsection{Sampling phase}
 

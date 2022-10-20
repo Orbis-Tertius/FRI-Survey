@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[    318850,       6414]
-NotebookOptionsPosition[    312588,       6210]
-NotebookOutlinePosition[    312927,       6225]
-CellTagsIndexPosition[    312884,       6222]
+NotebookDataLength[    319122,       6421]
+NotebookOptionsPosition[    312859,       6217]
+NotebookOutlinePosition[    313198,       6232]
+CellTagsIndexPosition[    313155,       6229]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2404,7 +2404,7 @@ Cell[BoxData[
   3.866534462769476*^9, {3.866534630465889*^9, 3.866534644820195*^9}, 
    3.8665354627276773`*^9, 3.87394974741916*^9}]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -3489,7 +3489,7 @@ Cell[BoxData[{
        "the", " ", "degree", " ", "of", " ", "the", " ", "field", " ", 
         "extension", " ", "for", " ", "FRI"}], "*)"}], ",", "\n", "\t", 
       RowBox[{"\"\<Hiding\>\"", " ", "\[Rule]", " ", "False"}]}], "\n", 
-     "}"}]}], ";"}], "\[IndentingNewLine]"}], "\n", 
+     "}"}]}], ";"}], "\n"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"prover", "[", "\n", "\t", 
    RowBox[{"numPolys_List", ",", " ", "bitsCode_", ",", "\n", "\t", 
@@ -4097,7 +4097,7 @@ extension degree.\>\"", "]"}], ";", "\n", "\t\t",
    3.866542890029676*^9}, {3.866543100622946*^9, 3.866543223415862*^9}, {
    3.86654326021805*^9, 3.866543263431172*^9}, {3.873950675386077*^9, 
    3.873950681703293*^9}, {3.8739511044469*^9, 3.873951123302375*^9}}]
-}, Open  ]]
+}, Closed]]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -4881,7 +4881,7 @@ Cell[BoxData[
    3.873951621179821*^9}}]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -5259,7 +5259,7 @@ Cell[BoxData[
    3.873951457866828*^9}, 3.873951740323535*^9}]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -5290,25 +5290,26 @@ Cell[BoxData[{
     RowBox[{"100", ",", "100", ",", "100"}], "}"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"capLevel", "=", "4"}], ";", 
+  RowBox[{
+   RowBox[{"capLevel", "=", "4"}], ";"}], 
   RowBox[{"(*", " ", 
    RowBox[{
    "set", " ", "to", " ", "minimize", " ", "the", " ", "proof", " ", "size"}],
-    " ", "*)"}], "\[IndentingNewLine]", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{"numHashes", ",", " ", "proofBytes"}], "}"}], "=", 
-   RowBox[{"prover", "[", 
-    RowBox[{"numPolys", ",", " ", "bitsCode", ",", " ", 
-     RowBox[{"{", 
-      RowBox[{"bitsSec", ",", "bitsRate", ",", "arities", ",", "capLevel"}], 
-      "}"}], ",", "\[IndentingNewLine]", 
-     RowBox[{"\"\<BitsBaseField\>\"", "\[Rule]", "64"}], ",", 
-     "\[IndentingNewLine]", 
-     RowBox[{"\"\<ExtensionDegree\>\"", "\[Rule]", "3"}], ",", 
-     "\[IndentingNewLine]", 
-     RowBox[{"\"\<Hiding\>\"", "\[Rule]", "False"}]}], "\[IndentingNewLine]", 
-    "]"}]}]}]}], "Input",
+    " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{"numHashes", ",", " ", "proofBytes"}], "}"}], "=", 
+  RowBox[{"prover", "[", 
+   RowBox[{"numPolys", ",", " ", "bitsCode", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"bitsSec", ",", "bitsRate", ",", "arities", ",", "capLevel"}], 
+     "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"\"\<BitsBaseField\>\"", "\[Rule]", "64"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"\"\<ExtensionDegree\>\"", "\[Rule]", "3"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"\"\<Hiding\>\"", "\[Rule]", "False"}]}], "\[IndentingNewLine]", 
+   "]"}]}]}], "Input",
  CellChangeTimes->CompressedData["
 1:eJxTTMoPSmViYGAQBmIQ7atvw3Dj3BvHuppLYHqKfxMXiF7D3SsJorWjTRVA
 9DUeWSUQ3ftwoR6InjM50QFERzxb4A6if+SvBtOxkn/PgmhmUaFLIHreRzeB
@@ -5386,7 +5387,7 @@ Cell[BoxData[
    3.873437324518922*^9, 3.87343734099718*^9}}]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -5938,7 +5939,7 @@ Cell[BoxData[
    3.8734388661440773`*^9, 3.8739504789837437`*^9, 3.873951872979701*^9}]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]]
+}, Closed]]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -6023,22 +6024,22 @@ Cell[BoxData[
       StringForm["Number of polynomials for batch open: ``", 200],
       Editable->False]},
     {
-     InterpretationBox["\<\"Johnson proximity m: \\!\\(322\\)\"\>",
-      StringForm["Johnson proximity m: ``", 322],
+     InterpretationBox["\<\"Johnson proximity m: \\!\\(342\\)\"\>",
+      StringForm["Johnson proximity m: ``", 342],
       Editable->False]},
     {
      InterpretationBox["\<\"Soundness error commit phase: \
-2^\\!\\(-80.02766761160335`\\)\"\>",
-      StringForm["Soundness error commit phase: 2^``", -80.02766761160335],
+2^\\!\\(-81.00499631956359`\\)\"\>",
+      StringForm["Soundness error commit phase: 2^``", -81.00499631956359],
       Editable->False]},
     {
-     InterpretationBox["\<\"Number of query rounds: \\!\\(81\\)\"\>",
-      StringForm["Number of query rounds: ``", 81],
+     InterpretationBox["\<\"Number of query rounds: \\!\\(82\\)\"\>",
+      StringForm["Number of query rounds: ``", 82],
       Editable->False]},
     {
      InterpretationBox["\<\"Soundness error query phase: \
-2^\\!\\(-80.81868375212404`\\)\"\>",
-      StringForm["Soundness error query phase: 2^``", -80.81868375212404],
+2^\\!\\(-81.82717163711672`\\)\"\>",
+      StringForm["Soundness error query phase: 2^``", -81.82717163711672],
       Editable->False]},
     {
      InterpretationBox["\<\"revealed poly size: \\!\\(8192\\) FE\"\>",
@@ -6051,8 +6052,8 @@ values = \\!\\(400\\) FE\"\>",
       "per round: `` path elems + `` values = `` FE", 128, 272, 400],
       Editable->False]},
     {
-     InterpretationBox["\<\"\\!\\(81\\) rounds: \\!\\(32400\\) FE\"\>",
-      StringForm["`` rounds: `` FE", 81, 32400],
+     InterpretationBox["\<\"\\!\\(82\\) rounds: \\!\\(32800\\) FE\"\>",
+      StringForm["`` rounds: `` FE", 82, 32800],
       Editable->False]}
    },
    DefaultBaseStyle->"Column",
@@ -6064,17 +6065,19 @@ values = \\!\\(400\\) FE\"\>",
    3.870951212520018*^9, 3.870951221170415*^9}, {3.870951417555764*^9, 
    3.870951457271319*^9}, {3.870951500756414*^9, 3.870951540653863*^9}, 
    3.870952286548255*^9, {3.870952418339923*^9, 3.870952433156331*^9}, 
-   3.870952467616905*^9, 3.870952533333589*^9, 3.873434678004799*^9}],
+   3.870952467616905*^9, 3.870952533333589*^9, 3.873434678004799*^9, 
+   3.87476163030441*^9}],
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{"3342336", ",", "326784"}], "}"}]], "Output",
+  RowBox[{"3342336", ",", "329984"}], "}"}]], "Output",
  CellChangeTimes->{
   3.86654617089966*^9, {3.870951143778926*^9, 3.870951178416106*^9}, {
    3.87095121253089*^9, 3.870951221181033*^9}, {3.8709514175654993`*^9, 
    3.870951457329879*^9}, {3.87095150077664*^9, 3.8709515406640463`*^9}, 
    3.8709522865599337`*^9, {3.870952418350387*^9, 3.870952433166964*^9}, 
-   3.8709524676643963`*^9, 3.8709525333455267`*^9, 3.873434678016287*^9}]
+   3.8709524676643963`*^9, 3.8709525333455267`*^9, 3.873434678016287*^9, 
+   3.874761630306056*^9}]
 }, Open  ]]
 }, Open  ]],
 
@@ -6093,11 +6096,12 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"bitsCode", "=", "20"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"bitsRate", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"bitsRate", "=", "1"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"arities", " ", "=", 
    RowBox[{"{", 
-    RowBox[{"4", ",", "3"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"4", ",", "4", ",", "4", ",", "4"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"numPolys", "=", 
    RowBox[{"{", 
@@ -6132,7 +6136,8 @@ Cell[BoxData[{
    3.8709514988558292`*^9, 3.870951540189941*^9}, {3.870952259340146*^9, 
    3.870952283658084*^9}, {3.870952416093701*^9, 3.870952432521935*^9}, 
    3.870952466288468*^9, {3.870952519786005*^9, 3.870952521462433*^9}, {
-   3.870952589415979*^9, 3.870952589711038*^9}}],
+   3.870952589415979*^9, 3.870952589711038*^9}, {3.8747621605059347`*^9, 
+   3.874762188827607*^9}}],
 
 Cell[BoxData[
  TagBox[GridBox[{
@@ -6141,8 +6146,8 @@ Cell[BoxData[
       StringForm["Code bits: ``", 20],
       Editable->False]},
     {
-     InterpretationBox["\<\"Sampling domain bits: \\!\\(22\\)\"\>",
-      StringForm["Sampling domain bits: ``", 22],
+     InterpretationBox["\<\"Sampling domain bits: \\!\\(21\\)\"\>",
+      StringForm["Sampling domain bits: ``", 21],
       Editable->False]},
     {
      InterpretationBox["\<\"Number of polynomials for batch open: \
@@ -6150,36 +6155,36 @@ Cell[BoxData[
       StringForm["Number of polynomials for batch open: ``", 200],
       Editable->False]},
     {
-     InterpretationBox["\<\"Johnson proximity m: \\!\\(44\\)\"\>",
-      StringForm["Johnson proximity m: ``", 44],
+     InterpretationBox["\<\"Johnson proximity m: \\!\\(66\\)\"\>",
+      StringForm["Johnson proximity m: ``", 66],
       Editable->False]},
     {
      InterpretationBox["\<\"Soundness error commit phase: \
-2^\\!\\(-100.02962104701288`\\)\"\>",
-      StringForm["Soundness error commit phase: 2^``", -100.02962104701288`],
+2^\\!\\(-101.05774051599049`\\)\"\>",
+      StringForm["Soundness error commit phase: 2^``", -101.05774051599049`],
       Editable->False]},
     {
-     InterpretationBox["\<\"Number of query rounds: \\!\\(102\\)\"\>",
-      StringForm["Number of query rounds: ``", 102],
+     InterpretationBox["\<\"Number of query rounds: \\!\\(207\\)\"\>",
+      StringForm["Number of query rounds: ``", 207],
       Editable->False]},
     {
      InterpretationBox["\<\"Soundness error query phase: \
-2^\\!\\(-100.33721514243173`\\)\"\>",
-      StringForm["Soundness error query phase: 2^``", -100.33721514243173`],
+2^\\!\\(-101.24611855845362`\\)\"\>",
+      StringForm["Soundness error query phase: 2^``", -101.24611855845362`],
       Editable->False]},
     {
-     InterpretationBox["\<\"revealed poly size: \\!\\(8192\\) FE\"\>",
-      StringForm["revealed poly size: `` FE", 8192],
+     InterpretationBox["\<\"revealed poly size: \\!\\(16\\) FE\"\>",
+      StringForm["revealed poly size: `` FE", 16],
       Editable->False]},
     {
-     InterpretationBox["\<\"per round: \\!\\(128\\) path elems + \\!\\(272\\) \
-values = \\!\\(400\\) FE\"\>",
+     InterpretationBox["\<\"per round: \\!\\(176\\) path elems + \\!\\(392\\) \
+values = \\!\\(568\\) FE\"\>",
       StringForm[
-      "per round: `` path elems + `` values = `` FE", 128, 272, 400],
+      "per round: `` path elems + `` values = `` FE", 176, 392, 568],
       Editable->False]},
     {
-     InterpretationBox["\<\"\\!\\(102\\) rounds: \\!\\(40800\\) FE\"\>",
-      StringForm["`` rounds: `` FE", 102, 40800],
+     InterpretationBox["\<\"\\!\\(207\\) rounds: \\!\\(117576\\) FE\"\>",
+      StringForm["`` rounds: `` FE", 207, 117576],
       Editable->False]}
    },
    DefaultBaseStyle->"Column",
@@ -6192,18 +6197,20 @@ values = \\!\\(400\\) FE\"\>",
    3.870951457271319*^9}, {3.870951500756414*^9, 3.870951540653863*^9}, 
    3.870952286548255*^9, {3.870952418339923*^9, 3.870952433156331*^9}, 
    3.870952467616905*^9, 3.870952533333589*^9, 3.870952591147051*^9, 
-   3.873434683925838*^9}],
+   3.873434683925838*^9, 3.8747616455805273`*^9, {3.8747621636914186`*^9, 
+   3.874762189209558*^9}}],
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{"3342336", ",", "393984"}], "}"}]], "Output",
+  RowBox[{"1677696", ",", "943808"}], "}"}]], "Output",
  CellChangeTimes->{
   3.86654617089966*^9, {3.870951143778926*^9, 3.870951178416106*^9}, {
    3.87095121253089*^9, 3.870951221181033*^9}, {3.8709514175654993`*^9, 
    3.870951457329879*^9}, {3.87095150077664*^9, 3.8709515406640463`*^9}, 
    3.8709522865599337`*^9, {3.870952418350387*^9, 3.870952433166964*^9}, 
    3.8709524676643963`*^9, 3.8709525333455267`*^9, 3.870952591155347*^9, 
-   3.873434683959175*^9}]
+   3.873434683959175*^9, 3.87476164559699*^9, {3.874762163704047*^9, 
+   3.874762189225232*^9}}]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
@@ -6238,9 +6245,9 @@ Cell[CellGroupData[{
 Cell[140590, 2395, 180, 3, 32, "Input"],
 Cell[140773, 2400, 203, 4, 32, "Output"]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[141025, 2410, 105, 1, 44, "Subsection"],
+Cell[141025, 2410, 105, 1, 36, "Subsection"],
 Cell[141133, 2413, 4525, 92, 527, "Code"],
 Cell[CellGroupData[{
 Cell[145683, 2509, 752, 20, 121, "Input"],
@@ -6295,7 +6302,7 @@ Cell[186851, 3384, 362, 8, 32, "Output"]
 Cell[CellGroupData[{
 Cell[187262, 3398, 201, 4, 36, "Subsection"],
 Cell[187466, 3404, 38258, 694, 2370, "Code"]
-}, Open  ]]
+}, Closed]]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[225773, 4104, 93, 1, 80, "Section"],
@@ -6337,9 +6344,9 @@ Cell[254998, 4815, 2226, 56, 165, "Print"],
 Cell[257227, 4873, 392, 7, 32, "Output"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[257680, 4887, 204, 3, 44, "Subsection"],
+Cell[257680, 4887, 204, 3, 36, "Subsection"],
 Cell[CellGroupData[{
 Cell[257909, 4894, 111, 1, 35, "Subsubsection"],
 Cell[CellGroupData[{
@@ -6358,61 +6365,61 @@ Cell[270019, 5193, 2254, 56, 165, "Print"],
 Cell[272276, 5251, 416, 7, 32, "Output"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[272753, 5265, 104, 1, 44, "Subsection"],
+Cell[272753, 5265, 104, 1, 36, "Subsection"],
 Cell[CellGroupData[{
 Cell[272882, 5270, 114, 1, 35, "Subsubsection"],
 Cell[CellGroupData[{
-Cell[273021, 5275, 1703, 43, 275, "Input"],
-Cell[274727, 5320, 2253, 56, 165, "Print"],
-Cell[276983, 5378, 420, 7, 32, "Output"]
+Cell[273021, 5275, 1703, 44, 275, "Input"],
+Cell[274727, 5321, 2253, 56, 165, "Print"],
+Cell[276983, 5379, 420, 7, 32, "Output"]
 }, Open  ]]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[277464, 5393, 350, 5, 36, "Subsection"],
+Cell[CellGroupData[{
+Cell[277839, 5402, 111, 1, 35, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[277975, 5407, 1702, 43, 275, "Input"],
+Cell[279680, 5452, 2828, 64, 165, "Print"],
+Cell[282511, 5518, 1037, 16, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[283585, 5539, 2220, 48, 275, "Input"],
+Cell[285808, 5589, 2803, 63, 165, "Print"],
+Cell[288614, 5654, 1014, 16, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[289665, 5675, 2122, 47, 275, "Input"],
+Cell[291790, 5724, 2830, 64, 165, "Print"],
+Cell[294623, 5790, 1033, 16, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[295693, 5811, 2024, 43, 275, "Input"],
+Cell[297720, 5856, 2785, 65, 165, "Print"],
+Cell[300508, 5923, 983, 15, 32, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[301564, 5946, 417, 7, 80, "Section"],
+Cell[CellGroupData[{
+Cell[302006, 5957, 206, 3, 35, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[302237, 5964, 2185, 44, 275, "Input"],
+Cell[304425, 6010, 2324, 58, 165, "Print"],
+Cell[306752, 6070, 496, 9, 32, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[277464, 5392, 350, 5, 44, "Subsection"],
+Cell[307297, 6085, 206, 3, 35, "Subsubsection"],
 Cell[CellGroupData[{
-Cell[277839, 5401, 111, 1, 35, "Subsubsection"],
-Cell[CellGroupData[{
-Cell[277975, 5406, 1702, 43, 275, "Input"],
-Cell[279680, 5451, 2828, 64, 165, "Print"],
-Cell[282511, 5517, 1037, 16, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[283585, 5538, 2220, 48, 275, "Input"],
-Cell[285808, 5588, 2803, 63, 165, "Print"],
-Cell[288614, 5653, 1014, 16, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[289665, 5674, 2122, 47, 275, "Input"],
-Cell[291790, 5723, 2830, 64, 165, "Print"],
-Cell[294623, 5789, 1033, 16, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[295693, 5810, 2024, 43, 275, "Input"],
-Cell[297720, 5855, 2785, 65, 165, "Print"],
-Cell[300508, 5922, 983, 15, 32, "Output"]
-}, Open  ]]
-}, Open  ]]
-}, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[301564, 5945, 417, 7, 80, "Section"],
-Cell[CellGroupData[{
-Cell[302006, 5956, 206, 3, 35, "Subsubsection"],
-Cell[CellGroupData[{
-Cell[302237, 5963, 2185, 44, 275, "Input"],
-Cell[304425, 6009, 2299, 57, 165, "Print"],
-Cell[306727, 6068, 470, 8, 32, "Output"]
-}, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[307246, 6082, 206, 3, 35, "Subsubsection"],
-Cell[CellGroupData[{
-Cell[307477, 6089, 2236, 45, 275, "Input"],
-Cell[309716, 6136, 2333, 58, 165, "Print"],
-Cell[312052, 6196, 496, 9, 32, "Output"]
+Cell[307528, 6092, 2311, 47, 275, "Input"],
+Cell[309842, 6141, 2407, 59, 165, "Print"],
+Cell[312252, 6202, 567, 10, 32, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
