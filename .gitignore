@@ -5,9 +5,11 @@
 *.bbl
 *.synctex.gz
 *.out
-*.pdf
 *.pdfsync
 *.toc
+*.txt
 *.run.xml
 *.log
+*.nb
+
 
